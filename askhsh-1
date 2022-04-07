@@ -1,0 +1,19 @@
+import node
+
+
+def create_graph():
+    print("Creating Graph")
+
+
+def calc_distance(x, y):
+    print("Calculating Manhattan Distance")
+
+
+'''
+n: int = int(input("Enter n: "))
+p: int = int(input("Enter p: "))
+p = p * 2 * n * (n - 1)
+max_w: int = input("Enter max: ")
+'''
+create_graph()
+pi = node.MyNode("bob", 10)
