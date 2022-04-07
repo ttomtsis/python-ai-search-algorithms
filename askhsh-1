@@ -1,19 +1,45 @@
 import node
 
 
-def create_graph():
+def rand_weight(max_weight):
+    print()
+
+
+def create_graph(n):
     print("Creating Graph")
+
+    counter = 1
+    for x in range(0,n):
+
+        for y in range(0,n):
+            # Does not go up
+            if x == 0:
+                # Does not go left AND does not go up
+                if y == 0:
+                    pass
+                # Does not go right AND does not go up
+                elif y == n-1:
+                    pass
+                # General case, Does not go up AND goes left AND right
+                else:
+                    pass
+            # Does not go down
+            elif x == n-1:
+                pass
+            # General case
+            else:
+                pass
 
 
 def calc_distance(x, y):
     print("Calculating Manhattan Distance")
 
 
-'''
 n: int = int(input("Enter n: "))
+'''
 p: int = int(input("Enter p: "))
 p = p * 2 * n * (n - 1)
 max_w: int = input("Enter max: ")
 '''
-create_graph()
+create_graph(n)
 pi = node.MyNode("bob", 10)

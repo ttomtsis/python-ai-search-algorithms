@@ -1,13 +1,13 @@
 class MyNode:
 
-    def __init__(self, n, u, d, l, r, wu, wd, wl, wr):
+    def __init__(self, n):
         self.name = str(n)
-        self.up = bool(u)
-        self.down = bool(d)
-        self.left = bool(l)
-        self.right = bool(r)
-        self.weight_up = bool(wu)
-        self.weight_down = bool(wd)
-        self.weight_left - bool(wl)
-        self.weight_right = bool(wr)
+        self.up = False
+        self.down = False
+        self.left = False
+        self.right = False
+        self.weight_up = 0
+        self.weight_down = 0
+        self.weight_left - 0
+        self.weight_right = 0
         print("Node " + n + " Created")
