@@ -2,33 +2,65 @@ import node
 
 
 def rand_weight(max_weight):
-    print()
+    return max_weight
 
 
 def create_graph(n):
     print("Creating Graph")
 
     counter = 1
-    for x in range(0,n):
+    nodes = []
 
-        for y in range(0,n):
+    for x in range(0, n):
+        cols = []
+        for y in range(0, n):
+            cols.append(node.MyNode(str(counter)))
+            counter += 1
+        nodes.append(cols)
+    # ni: node.MyNode = nodes[1][0]
+    # print(ni.name)
+
+    # Set connections
+    for x in range(0, n):
+
+        temp: node.MyNode = nodes[x][y]
+        print("Setting : "+temp.name)
+
+        for y in range(0, n):
+
             # Does not go up
             if x == 0:
+
                 # Does not go left AND does not go up
                 if y == 0:
-                    pass
+                    temp.right = nodes[x][y+1]
+                    temp.weight_right = rand_weight(10)
+                    temp.down = nodes[x+1][y]
+                    temp.weight_down = rand_weight(10)
+
                 # Does not go right AND does not go up
-                elif y == n-1:
-                    pass
+                elif y == n - 1:
+                    temp.down = nodes[x+1][y]
+                    temp.weight_down = rand_weight(10)
+
                 # General case, Does not go up AND goes left AND right
                 else:
-                    pass
+                    temp.right = nodes[x][y+1]
+                    temp.weight_right = rand_weight(10)
+                    temp.down = nodes[x+1][y]
+                    temp.weight_down = rand_weight(10)
+
             # Does not go down
-            elif x == n-1:
-                pass
+            elif x == n - 1:
+                temp.right = nodes[x][y + 1]
+                temp.weight_right = rand_weight(10)
+
             # General case
             else:
-                pass
+                temp.right = nodes[x][y + 1]
+                temp.weight_right = rand_weight(10)
+                temp.down = nodes[x + 1][y]
+                temp.weight_down = rand_weight(10)
 
 
 def calc_distance(x, y):
