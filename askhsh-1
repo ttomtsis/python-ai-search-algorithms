@@ -23,16 +23,18 @@ def create_graph(n):
     # Set connections
     for x in range(0, n):
 
-        temp: node.MyNode = nodes[x][y]
-        print("Setting : "+temp.name)
-
         for y in range(0, n):
+
+            temp: node.MyNode = nodes[x][y]
+            print("x: " + str(x) + " y: " + str(y))
+            print("Setting : " + temp.name)
 
             # Does not go up
             if x == 0:
 
                 # Does not go left AND does not go up
                 if y == 0:
+                    print("x==0 Does not go left AND does not go up")
                     temp.right = nodes[x][y+1]
                     temp.weight_right = rand_weight(10)
                     temp.down = nodes[x+1][y]
@@ -40,11 +42,13 @@ def create_graph(n):
 
                 # Does not go right AND does not go up
                 elif y == n - 1:
+                    print("x==0 Does not go right AND does not go up")
                     temp.down = nodes[x+1][y]
                     temp.weight_down = rand_weight(10)
 
                 # General case, Does not go up AND goes left AND right
                 else:
+                    print("x==0 General case, Does not go up AND goes left AND right")
                     temp.right = nodes[x][y+1]
                     temp.weight_right = rand_weight(10)
                     temp.down = nodes[x+1][y]
@@ -52,15 +56,20 @@ def create_graph(n):
 
             # Does not go down
             elif x == n - 1:
-                temp.right = nodes[x][y + 1]
-                temp.weight_right = rand_weight(10)
+                pass
 
             # General case
             else:
-                temp.right = nodes[x][y + 1]
-                temp.weight_right = rand_weight(10)
-                temp.down = nodes[x + 1][y]
-                temp.weight_down = rand_weight(10)
+                if y == n - 1:
+                    print("General - Does not go right AND does not go up")
+                    temp.down = nodes[x+1][y]
+                    temp.weight_down = rand_weight(10)
+                else :
+                    print("General - General case")
+                    temp.right = nodes[x][y + 1]
+                    temp.weight_right = rand_weight(10)
+                    temp.down = nodes[x + 1][y]
+                    temp.weight_down = rand_weight(10)
 
 
 def calc_distance(x, y):
@@ -74,4 +83,4 @@ p = p * 2 * n * (n - 1)
 max_w: int = input("Enter max: ")
 '''
 create_graph(n)
-pi = node.MyNode("bob", 10)
+pi = node.MyNode("bob")
