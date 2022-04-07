@@ -8,6 +8,5 @@ class MyNode:
         self.right = False
         self.weight_up = 0
         self.weight_down = 0
-        self.weight_left - 0
+        self.weight_left = 0
         self.weight_right = 0
-        print("Node " + n + " Created")
