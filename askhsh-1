@@ -149,8 +149,10 @@ def set_states(node_list):
             if ni.name == str(start):
                 start_state = ni
             elif ni.name == str(end_1):
+                ni.end_state = True
                 end_state_1 = ni
             elif ni.name == str(end_2):
+                ni.end_state = True
                 end_state_2 = ni
     print("States Set")
 
