@@ -2,3 +2,5 @@
 - Prosthese periorismous kai elegxo metablhton
 - Ftiakse remove edges sto askhsh-1
 - Ftiakse remove edge sto node.py ?
+- Stis synarthseis xrhsimopoihse global vars
+- kane nodesList global
