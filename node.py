@@ -13,6 +13,7 @@ class MyNode:
         self.weight_down = 0
         self.weight_left = 0
         self.weight_right = 0
+        self.end_state = False
 
     def print(self):
         print("----- " + self.name + " -----")
