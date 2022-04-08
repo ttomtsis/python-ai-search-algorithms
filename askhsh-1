@@ -1,8 +1,12 @@
 import node
+import random
+
+max_weight = 0;
+n = 0;
 
 
-def rand_weight(max_weight):
-    return max_weight
+def rand_weight():
+    return int(random.randrange(1, max_weight))
 
 
 def create_graph(n):
@@ -11,6 +15,8 @@ def create_graph(n):
     counter = 1
     nodes = []
 
+    # Dhmiourgia antikeimenon
+    # topothetisi se "pinaka"
     for x in range(0, n):
         cols = []
         for y in range(0, n):
@@ -26,61 +32,75 @@ def create_graph(n):
         for y in range(0, n):
 
             temp: node.MyNode = nodes[x][y]
-            print("x: " + str(x) + " y: " + str(y))
-            print("Setting : " + temp.name)
+            # print("x: " + str(x) + " y: " + str(y))
+            # print("Setting : " + temp.name)
 
             # Does not go up
             if x == 0:
 
                 # Does not go left AND does not go up
                 if y == 0:
-                    print("x==0 Does not go left AND does not go up")
-                    temp.right = nodes[x][y+1]
-                    temp.weight_right = rand_weight(10)
-                    temp.down = nodes[x+1][y]
-                    temp.weight_down = rand_weight(10)
+                    # print("x==0 Does not go left AND does not go up")
+                    temp.right = nodes[x][y + 1]
+                    temp.weight_right = rand_weight()
+                    temp.down = nodes[x + 1][y]
+                    temp.weight_down = rand_weight()
 
                 # Does not go right AND does not go up
                 elif y == n - 1:
-                    print("x==0 Does not go right AND does not go up")
-                    temp.down = nodes[x+1][y]
-                    temp.weight_down = rand_weight(10)
+                    # print("x==0 Does not go right AND does not go up")
+                    temp.down = nodes[x + 1][y]
+                    temp.weight_down = rand_weight()
 
                 # General case, Does not go up AND goes left AND right
                 else:
-                    print("x==0 General case, Does not go up AND goes left AND right")
-                    temp.right = nodes[x][y+1]
-                    temp.weight_right = rand_weight(10)
-                    temp.down = nodes[x+1][y]
-                    temp.weight_down = rand_weight(10)
+                    # print("x==0 General case, Does not go up AND goes left AND right")
+                    temp.right = nodes[x][y + 1]
+                    temp.weight_right = rand_weight()
+                    temp.down = nodes[x + 1][y]
+                    temp.weight_down = rand_weight()
 
             # Does not go down
             elif x == n - 1:
-                pass
+
+                if y == n - 1:
+                    pass
+                else:
+                    temp.right = nodes[x][y + 1]
+                    temp.weight_right = rand_weight()
 
             # General case
             else:
                 if y == n - 1:
-                    print("General - Does not go right AND does not go up")
-                    temp.down = nodes[x+1][y]
-                    temp.weight_down = rand_weight(10)
-                else :
-                    print("General - General case")
-                    temp.right = nodes[x][y + 1]
-                    temp.weight_right = rand_weight(10)
+                    # print("General - Does not go right AND does not go up")
                     temp.down = nodes[x + 1][y]
-                    temp.weight_down = rand_weight(10)
+                    temp.weight_down = rand_weight()
+                else:
+                    # print("General - General case")
+                    temp.right = nodes[x][y + 1]
+                    temp.weight_right = rand_weight()
+                    temp.down = nodes[x + 1][y]
+                    temp.weight_down = rand_weight()
+    print("Graph Created")
+    return nodes
+
+
+def print_graph(node_list):
+    for x in range(0, n):
+        for y in range(0, n):
+            ni: node.MyNode = node_list[x][y]
+            ni.print()
 
 
 def calc_distance(x, y):
     print("Calculating Manhattan Distance")
 
 
-n: int = int(input("Enter n: "))
+n = int(input("Enter n: "))
 '''
 p: int = int(input("Enter p: "))
 p = p * 2 * n * (n - 1)
-max_w: int = input("Enter max: ")
 '''
-create_graph(n)
-pi = node.MyNode("bob")
+max_weight = int(input("Enter max: "))
+nodes = create_graph(n)
+print_graph(nodes)
