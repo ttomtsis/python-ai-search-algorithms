@@ -3,7 +3,11 @@ import random
 
 max_weight = 10
 n = 3
-p = 10
+p = 20
+
+start_state = -1
+end_state_1 = -1
+end_state_2 = -1
 
 
 def rand_weight():
@@ -12,7 +16,7 @@ def rand_weight():
 
 def create_graph(n):
     print("Creating Graph")
-
+    print("Size will be: " + str(n) + " X " + str(n))
     counter = 1
     nodes = []
 
@@ -89,12 +93,15 @@ def create_graph(n):
 def remove_edges(percent, node_list):
     print("Removing Edges")
     total = 2 * n * (n - 1)
-    to_remove = int(p * total / 100)
+    print("Total Edges : " + str(total))
+    to_remove = int((p * total) / 100)
+    print("Will remove : " + str(to_remove))
 
     i = 0
     while i < to_remove:
         random_node = random.randrange(1, (n * n) + 1)
-        print("Random Node: " + str(random_node))
+        # print("Random Node: " + str(random_node))
+        found = False
         for x in range(0, n):
             for y in range(0, n):
 
@@ -103,10 +110,14 @@ def remove_edges(percent, node_list):
                 if ni.name == str(random_node):
                     result = int(ni.remove_edge())
                     if result == 1:
-                        print("Edge removed from " + ni.name)
-                        ni.print()
+                        # print("Edge removed from " + ni.name)
+                        # ni.print()
                         i += 1
-                        break;
+                        found = True
+                        break
+            if found:
+                # print("Breaking, since found")
+                break
     print("Edges removed")
 
 
@@ -117,15 +128,50 @@ def print_graph(node_list):
             ni.print()
 
 
+def set_states(node_list):
+    global start_state
+    global end_state_1
+    global end_state_2
+    print("Setting States")
+    start = random.randrange(0, (n * n) + 1)
+
+    done = False
+    while not done:
+        end_1 = random.randrange(0, (n * n) + 1)
+        end_2 = random.randrange(0, (n * n) + 1)
+        if end_1 != start and end_2 != start:
+            if end_1 != end_2:
+                done = True
+    end_1 = random.randrange(0, (n * n) + 1)
+    for x in range(0, n):
+        for y in range(0, n):
+            ni: node.MyNode = node_list[x][y]
+            if ni.name == str(start):
+                start_state = ni
+            elif ni.name == str(end_1):
+                end_state_1 = ni
+            elif ni.name == str(end_2):
+                end_state_2 = ni
+    print("States Set")
+
+
 def calc_distance(x, y):
     print("Calculating Manhattan Distance")
 
 
 # n = int(input("Enter n: "))
 # p: int = int(input("Enter p: "))
-p = p * 2 * n * (n - 1)
 # max_weight = int(input("Enter max: "))
 nodesList = create_graph(n)
-#print_graph(nodesList)
+# print_graph(nodesList)
 remove_edges(p, nodesList)
 print_graph(nodesList)
+set_states(nodesList)
+
+print("------------")
+ni: node.MyNode = start_state
+print("Start State: " + ni.name)
+ni: node.MyNode = end_state_1
+print("End State 1: " + ni.name)
+ni: node.MyNode = end_state_2
+print("End State 2: " + ni.name)
