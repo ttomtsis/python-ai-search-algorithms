@@ -1,8 +1,9 @@
 import node
 import random
 
-max_weight = 0;
-n = 0;
+max_weight = 10
+n = 3
+p = 10
 
 
 def rand_weight():
@@ -85,6 +86,30 @@ def create_graph(n):
     return nodes
 
 
+def remove_edges(percent, node_list):
+    print("Removing Edges")
+    total = 2 * n * (n - 1)
+    to_remove = int(p * total / 100)
+
+    i = 0
+    while i < to_remove:
+        random_node = random.randrange(1, (n * n) + 1)
+        print("Random Node: " + str(random_node))
+        for x in range(0, n):
+            for y in range(0, n):
+
+                ni: node.MyNode = node_list[x][y]
+
+                if ni.name == str(random_node):
+                    result = int(ni.remove_edge())
+                    if result == 1:
+                        print("Edge removed from " + ni.name)
+                        ni.print()
+                        i += 1
+                        break;
+    print("Edges removed")
+
+
 def print_graph(node_list):
     for x in range(0, n):
         for y in range(0, n):
@@ -96,11 +121,11 @@ def calc_distance(x, y):
     print("Calculating Manhattan Distance")
 
 
-n = int(input("Enter n: "))
-'''
-p: int = int(input("Enter p: "))
+# n = int(input("Enter n: "))
+# p: int = int(input("Enter p: "))
 p = p * 2 * n * (n - 1)
-'''
-max_weight = int(input("Enter max: "))
-nodes = create_graph(n)
-print_graph(nodes)
+# max_weight = int(input("Enter max: "))
+nodesList = create_graph(n)
+#print_graph(nodesList)
+remove_edges(p, nodesList)
+print_graph(nodesList)
