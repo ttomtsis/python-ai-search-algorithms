@@ -161,6 +161,14 @@ def calc_distance(x, y):
     print("Calculating Manhattan Distance")
 
 
+def is_possible(nodes_list):
+    pass
+
+
+def ucs(nodes_list):
+    pass
+
+
 # n = int(input("Enter n: "))
 # p: int = int(input("Enter p: "))
 # max_weight = int(input("Enter max: "))
@@ -177,3 +185,4 @@ ni: node.MyNode = end_state_1
 print("End State 1: " + ni.name)
 ni: node.MyNode = end_state_2
 print("End State 2: " + ni.name)
+
