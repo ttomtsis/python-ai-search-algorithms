@@ -56,6 +56,8 @@ def create_graph(n):
                     # print("x==0 Does not go right AND does not go up")
                     temp.down = nodes[x + 1][y]
                     temp.weight_down = rand_weight()
+                    temp.left = nodes[x][y - 1]
+                    temp.weight_left = rand_weight()
 
                 # General case, Does not go up AND goes left AND right
                 else:
@@ -64,15 +66,29 @@ def create_graph(n):
                     temp.weight_right = rand_weight()
                     temp.down = nodes[x + 1][y]
                     temp.weight_down = rand_weight()
+                    temp.left = nodes[x][y - 1]
+                    temp.weight_left = rand_weight()
 
             # Does not go down
             elif x == n - 1:
 
                 if y == n - 1:
-                    pass
+                    temp.left = nodes[x][y - 1]
+                    temp.weight_left = rand_weight()
+                    temp.up = nodes[x - 1][y]
+                    temp.weight_up = rand_weight()
+                elif y == 0:
+                    temp.up = nodes[x - 1][y]
+                    temp.weight_up = rand_weight()
+                    temp.right = nodes[x][y + 1]
+                    temp.weight_right = rand_weight()
                 else:
                     temp.right = nodes[x][y + 1]
                     temp.weight_right = rand_weight()
+                    temp.left = nodes[x][y - 1]
+                    temp.weight_left = rand_weight()
+                    temp.up = nodes[x - 1][y]
+                    temp.weight_up = rand_weight()
 
             # General case
             else:
@@ -80,19 +96,35 @@ def create_graph(n):
                     # print("General - Does not go right AND does not go up")
                     temp.down = nodes[x + 1][y]
                     temp.weight_down = rand_weight()
+                    temp.up = nodes[x - 1][y]
+                    temp.weight_up = rand_weight()
+                    temp.left = nodes[x][y - 1]
+                    temp.weight_left = rand_weight()
+                elif y == 0:
+                    temp.down = nodes[x + 1][y]
+                    temp.weight_down = rand_weight()
+                    temp.up = nodes[x - 1][y]
+                    temp.weight_up = rand_weight()
+                    temp.right = nodes[x][y + 1]
+                    temp.weight_right = rand_weight()
                 else:
                     # print("General - General case")
                     temp.right = nodes[x][y + 1]
                     temp.weight_right = rand_weight()
                     temp.down = nodes[x + 1][y]
                     temp.weight_down = rand_weight()
+                    temp.left = nodes[x][y - 1]
+                    temp.weight_left = rand_weight()
+                    temp.up = nodes[x - 1][y]
+                    temp.weight_up = rand_weight()
+
     print("Graph Created")
     return nodes
 
 
 def remove_edges(percent, node_list):
     print("Removing Edges")
-    total = 2 * n * (n - 1)
+    total = 2 * 2 * n * (n - 1)  # Afou einai amfidromo tote prepei na einai *2 o typos tou fyladiou
     print("Total Edges : " + str(total))
     to_remove = int((p * total) / 100)
     print("Will remove : " + str(to_remove))
@@ -132,6 +164,7 @@ def set_states(node_list):
     global start_state
     global end_state_1
     global end_state_2
+    print("---------------")
     print("Setting States")
     start = random.randrange(0, (n * n) + 1)
 
@@ -154,15 +187,13 @@ def set_states(node_list):
             elif ni.name == str(end_2):
                 ni.end_state = True
                 end_state_2 = ni
+
     print("States Set")
+    print("---------------")
 
 
 def calc_distance(x, y):
     print("Calculating Manhattan Distance")
-
-
-def is_possible(nodes_list):
-    pass
 
 
 def ucs(nodes_list):
@@ -177,12 +208,11 @@ nodesList = create_graph(n)
 remove_edges(p, nodesList)
 print_graph(nodesList)
 set_states(nodesList)
-
-print("------------")
+start_state = nodesList[0][0]  # 1
+# print("------------")
 ni: node.MyNode = start_state
 print("Start State: " + ni.name)
 ni: node.MyNode = end_state_1
 print("End State 1: " + ni.name)
 ni: node.MyNode = end_state_2
 print("End State 2: " + ni.name)
-
