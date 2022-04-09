@@ -16,7 +16,7 @@ class MyNode:
         self.end_state = False
 
     def print(self):
-        print("----- " + self.name + " -----")
+        print("\n----- " + self.name + " -----")
 
         ni: MyNode = self.up
         if type(ni) == bool:
@@ -38,7 +38,7 @@ class MyNode:
 
         ni: MyNode = self.right
         if type(ni) == bool:
-            print("Right: " + str(self.left) + " - Weight: " + str(self.weight_right))
+            print("Right: " + str(self.right) + " - Weight: " + str(self.weight_right))
         else:
             print("Right: " + ni.name + " - Weight: " + str(self.weight_right))
 
