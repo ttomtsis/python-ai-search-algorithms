@@ -17,10 +17,30 @@ class MyNode:
 
     def print(self):
         print("----- " + self.name + " -----")
-        print("Up: " + str(self.up) + " - " + str(self.weight_up))
-        print("Down: " + str(self.down) + " - " + str(self.weight_down))
-        print("Left: " + str(self.left) + " - " + str(self.weight_left))
-        print("Right: " + str(self.right) + " - " + str(self.weight_right))
+
+        ni: MyNode = self.up
+        if type(ni) == bool:
+            print("Up: " + str(self.up) + " - Weight: " + str(self.weight_up))
+        else:
+            print("Up: " + ni.name + " - Weight: " + str(self.weight_up))
+
+        ni: MyNode = self.down
+        if type(ni) == bool:
+            print("Down: " + str(self.down) + " - Weight: " + str(self.weight_down))
+        else:
+            print("Down: " + ni.name + " - Weight: " + str(self.weight_down))
+
+        ni: MyNode = self.left
+        if type(ni) == bool:
+            print("Left: " + str(self.left) + " - Weight: " + str(self.weight_left))
+        else:
+            print("Left: " + ni.name + " - Weight: " + str(self.weight_left))
+
+        ni: MyNode = self.right
+        if type(ni) == bool:
+            print("Right: " + str(self.left) + " - Weight: " + str(self.weight_right))
+        else:
+            print("Right: " + ni.name + " - Weight: " + str(self.weight_right))
 
     def remove_edge(self):
 
@@ -47,4 +67,3 @@ class MyNode:
                 self.right = False
                 self.weight_right = 0
                 return 1
-
