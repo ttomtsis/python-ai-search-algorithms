@@ -42,6 +42,12 @@ class MyNode:
         else:
             print("Right: " + ni.name + " - Weight: " + str(self.weight_right))
 
+        ni: MyNode = self.end_state
+        if ni:
+            print("End State: True")
+        else:
+            print("End State: False")
+
     def remove_edge(self):
 
         if (self.up == False and self.down == False
