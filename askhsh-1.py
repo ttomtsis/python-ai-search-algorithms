@@ -210,6 +210,7 @@ def ucs(nodes_list):
 nodesList = create_graph(n)
 remove_edges(p, nodesList)
 set_states(nodesList)
+print_graph(nodesList)
 
 start_state = nodesList[0][0]  # 1
 
