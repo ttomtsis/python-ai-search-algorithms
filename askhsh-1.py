@@ -166,24 +166,27 @@ def set_states(node_list):
     global end_state_2
     print("---------------")
     print("Setting States")
-    start = random.randrange(0, (n * n) + 1)
+    start = random.randrange(1, (n * n) + 1)
 
     done = False
     while not done:
-        end_1 = random.randrange(0, (n * n) + 1)
-        end_2 = random.randrange(0, (n * n) + 1)
+        end_1 = random.randrange(1, (n * n) + 1)
+        end_2 = random.randrange(1, (n * n) + 1)
         if end_1 != start and end_2 != start:
             if end_1 != end_2:
                 done = True
-    end_1 = random.randrange(0, (n * n) + 1)
+                print("Values changed")
+
     for x in range(0, n):
         for y in range(0, n):
             ni: node.MyNode = node_list[x][y]
             if ni.name == str(start):
                 start_state = ni
+
             elif ni.name == str(end_1):
                 ni.end_state = True
                 end_state_1 = ni
+
             elif ni.name == str(end_2):
                 ni.end_state = True
                 end_state_2 = ni
@@ -203,13 +206,13 @@ def ucs(nodes_list):
 # n = int(input("Enter n: "))
 # p: int = int(input("Enter p: "))
 # max_weight = int(input("Enter max: "))
+
 nodesList = create_graph(n)
-# print_graph(nodesList)
 remove_edges(p, nodesList)
-print_graph(nodesList)
 set_states(nodesList)
+
 start_state = nodesList[0][0]  # 1
-# print("------------")
+
 ni: node.MyNode = start_state
 print("Start State: " + ni.name)
 ni: node.MyNode = end_state_1
