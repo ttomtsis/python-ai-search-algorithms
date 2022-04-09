@@ -3,4 +3,3 @@
 - Stis synarthseis xrhsimopoihse global vars
 - kane nodesList global
 - kane to grafo klash ?
-- Diorthose to error 213-218
