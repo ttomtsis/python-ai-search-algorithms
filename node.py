@@ -15,6 +15,10 @@ class MyNode:
         self.weight_right = 0
         self.end_state = False
 
+        # UCS
+        self.total_cost = 0
+        self.route = ""
+
     def print(self):
         print("\n----- " + self.name + " -----")
 
