@@ -1,5 +1,6 @@
 import node
 import random
+import copy
 
 max_weight = 10
 n = 3
@@ -199,6 +200,84 @@ def calc_distance(x, y):
     print("Calculating Manhattan Distance")
 
 
+def expand(my_node, visited, queue):
+    expansion = []
+    visited: []
+    queue: []
+    ni: node = my_node
+    print("Expanding node: " + ni.name)
+
+    if type(ni.up) == node.MyNode:
+        if ni.up in visited:
+            pass
+        # Periptosh diplotypou me diaforetiko kostos
+        if ni.up in queue:
+            # Clone object, new object has new cost :)
+            pos = queue.index(ni.up)
+            pi: node = queue[pos]
+            clone = copy.deepcopy(pi)
+            clone.total_cost = ni.total_cost + ni.weight_up
+            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            expansion.append(clone)
+        else:
+            ni.up.total_cost = ni.total_cost + ni.weight_up
+            ni.up.route = ni.route + " + " + ni.up.name
+            expansion.append(ni.up)
+    if type(ni.down) == node.MyNode:
+        if ni.down in visited:
+            pass
+        # Periptosh diplotypou me diaforetiko kostos
+        if ni.down in queue:
+            # Clone object, new object has new cost :)
+            pos = queue.index(ni.down)
+            pi: node = queue[pos]
+            clone = copy.deepcopy(pi)
+            clone.total_cost = ni.total_cost + ni.weight_down
+            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            expansion.append(clone)
+        else:
+            ni.down.total_cost = ni.total_cost + ni.weight_down
+            ni.down.route = ni.route + " + " + ni.down.name
+            expansion.append(ni.down)
+    if type(ni.left) == node.MyNode:
+        if ni.left in visited:
+            pass
+        # Periptosh diplotypou me diaforetiko kostos
+        if ni.left in queue:
+            # Clone object, new object has new cost :)
+            pos = queue.index(ni.left)
+            pi: node = queue[pos]
+            clone = copy.deepcopy(pi)
+            clone.total_cost = ni.total_cost + ni.weight_left
+            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            expansion.append(clone)
+        else:
+            ni.left.total_cost = ni.total_cost + ni.weight_left
+            ni.left.route = ni.route + " + " + ni.left.name
+            expansion.append(ni.left)
+    if type(ni.right) == node.MyNode:
+        if ni.right in visited:
+            pass
+        # Periptosh diplotypou me diaforetiko kostos
+        if ni.right in queue:
+            # Clone object, new object has new cost :)
+            pos = queue.index(ni.right)
+            pi: node = queue[pos]
+            clone = copy.deepcopy(pi)
+            clone.total_cost = ni.total_cost + ni.weight_right
+            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            expansion.append(clone)
+        else:
+            ni.right.total_cost = ni.total_cost + ni.weight_right
+            ni.right.route = ni.route + " + " + ni.right.name
+            expansion.append(ni.right)
+
+    for x in range(0, len(expansion)):
+        zi: node = expansion[x]
+        print("Expansion " + str(x) + ": " + zi.name + " COST: " + str(zi.total_cost))
+    return expansion
+
+
 def ucs(nodes_list):
     pass
 
@@ -220,3 +299,13 @@ ni: node.MyNode = end_state_1
 print("End State 1: " + ni.name)
 ni: node.MyNode = end_state_2
 print("End State 2: " + ni.name)
+
+'''
+# Prints expansion
+v = []
+q = []
+e = expand(start_state, v, q)
+for x in range(0, len(e)):
+    ni: node = e[x]
+    print("Name: " + ni.name + ": " + "Route: " + ni.route)
+'''
