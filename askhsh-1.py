@@ -215,7 +215,7 @@ print_graph(nodesList)
 start_state = nodesList[0][0]  # 1
 
 ni: node.MyNode = start_state
-print("Start State: " + ni.name)
+print("\nStart State: " + ni.name)
 ni: node.MyNode = end_state_1
 print("End State 1: " + ni.name)
 ni: node.MyNode = end_state_2
