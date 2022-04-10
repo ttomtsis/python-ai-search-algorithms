@@ -17,7 +17,7 @@ class MyNode:
 
         # UCS
         self.total_cost = 0
-        self.route = ""
+        self.route = self.name
 
     def print(self):
         print("\n----- " + self.name + " -----")
