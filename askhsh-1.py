@@ -212,15 +212,18 @@ def expand(my_node, visited, queue):
     in_queue = False
     in_visited = False
     ni: node = my_node
-    #print("Expanding node: " + ni.name)
+    print("Expanding node: " + ni.name)
 
     if type(ni.up) == node.MyNode:
+        print("up")
+        in_queue = False
+        in_visited = False
         # Yparxei sto queue ?
         for x in range(0, len(queue)):
             qi: node = queue[x]
             if ni.up.name == qi.name:
                 in_queue = True
-
+                pos = x
         # Yparxei sto visited ?
         for x in range(0, len(visited)):
             qi: node = visited[x]
@@ -228,12 +231,13 @@ def expand(my_node, visited, queue):
                 in_visited = True
 
         if in_visited:
+            print("Already visited")
             pass
 
         # Periptosh diplotypou me diaforetiko kostos
         if in_queue and not in_visited:
             # Clone object, new object has new cost :)
-            pos = queue.index(ni.up)
+            print("Clone")
             pi: node = queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_up
@@ -241,15 +245,20 @@ def expand(my_node, visited, queue):
             expansion.append(clone)
 
         if not in_queue and not in_visited:
+            print("normie")
             ni.up.total_cost = ni.total_cost + ni.weight_up
             ni.up.route = ni.route + " + " + ni.up.name
             expansion.append(ni.up)
     if type(ni.down) == node.MyNode:
+        print("down")
+        in_queue = False
+        in_visited = False
         # Yparxei sto queue ?
         for x in range(0, len(queue)):
             qi: node = queue[x]
             if ni.down.name == qi.name:
                 in_queue = True
+                pos = x
 
         # Yparxei sto visited ?
         for x in range(0, len(visited)):
@@ -258,12 +267,13 @@ def expand(my_node, visited, queue):
                 in_visited = True
 
         if in_visited:
+            print("Already visited")
             pass
 
         # Periptosh diplotypou me diaforetiko kostos
         if in_queue and not in_visited:
             # Clone object, new object has new cost :)
-            pos = queue.index(ni.down)
+            print("Clone")
             pi: node = queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_down
@@ -271,16 +281,20 @@ def expand(my_node, visited, queue):
             expansion.append(clone)
 
         if not in_queue and not in_visited:
+            print("normie")
             ni.down.total_cost = ni.total_cost + ni.weight_down
             ni.down.route = ni.route + " + " + ni.down.name
             expansion.append(ni.down)
     if type(ni.left) == node.MyNode:
-
+        print("left")
+        in_queue = False
+        in_visited = False
         # Yparxei sto queue ?
         for x in range(0,len(queue)):
             qi : node = queue[x]
             if ni.left.name == qi.name:
                 in_queue = True
+                pos = x
 
         # Yparxei sto visited ?
         for x in range(0,len(visited)):
@@ -289,12 +303,13 @@ def expand(my_node, visited, queue):
                 in_visited = True
 
         if in_visited:
+            print("Already visited")
             pass
 
         # Periptosh diplotypou me diaforetiko kostos
         if in_queue and not in_visited:
             # Clone object, new object has new cost :)
-            pos = queue.index(ni.left)
+            print("Clone")
             pi: node = queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_left
@@ -302,15 +317,20 @@ def expand(my_node, visited, queue):
             expansion.append(clone)
 
         if not in_queue and not in_visited:
+            print("normie")
             ni.left.total_cost = ni.total_cost + ni.weight_left
             ni.left.route = ni.route + " + " + ni.left.name
             expansion.append(ni.left)
     if type(ni.right) == node.MyNode:
+        print("right")
+        in_queue = False
+        in_visited = False
         # Yparxei sto queue ?
         for x in range(0, len(queue)):
             qi: node = queue[x]
             if ni.right.name == qi.name:
                 in_queue = True
+                pos = x
 
         # Yparxei sto visited ?
         for x in range(0, len(visited)):
@@ -319,12 +339,13 @@ def expand(my_node, visited, queue):
                 in_visited = True
 
         if in_visited:
+            print("Already visited")
             pass
 
         # Periptosh diplotypou me diaforetiko kostos
         if in_queue and not in_visited:
             # Clone object, new object has new cost :)
-            pos = queue.index(ni.right)
+            print("Clone")
             pi: node = queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_right
@@ -332,13 +353,14 @@ def expand(my_node, visited, queue):
             expansion.append(clone)
 
         if not in_queue and not in_visited:
+            print("normie")
             ni.right.total_cost = ni.total_cost + ni.weight_right
             ni.right.route = ni.route + " + " + ni.right.name
             expansion.append(ni.right)
 
     for x in range(0, len(expansion)):
         zi: node = expansion[x]
-        #print("Expansion " + str(x) + ": " + zi.name + " COST: " + str(zi.total_cost))
+        print("Expansion: " + zi.name + " COST: " + str(zi.total_cost))
     return expansion
 
 
@@ -355,32 +377,37 @@ def ucs(start_state):
     while len(priority_queue) != 0:
         ni: node = priority_queue[0]
 
+        print("QUEUE:")
+        for x in range(0, len(priority_queue)):
+            pp: node = priority_queue[x]
+            print(pp.name)
+
         for x in range(0, len(visited)):
             qi: node = visited[x]
             if ni.name == qi.name:
                 in_visited = True
 
         if in_visited:
-            #print("Node " + ni.name + " already visited")
+            print("Node " + ni.name + " already visited")
             pass
         elif ni.end_state and not in_visited:
-            # print("--- Node " + ni.name + " is end state, adding to results")  # Des apo to biblio thn shmeiosh
-            # print("Route of node is: " + ni.route)
-            # print("Cost of node is: " + str(ni.total_cost))
+            print("--- Node " + ni.name + " is end state, adding to results")  # Des apo to biblio thn shmeiosh
+            print("Route of node is: " + ni.route)
+            print("Cost of node is: " + str(ni.total_cost))
             results.append(ni)
             expansion: [] = expand(ni, visited, priority_queue)
             priority_queue.extend(expansion)
             node_counter += len(expansion)
-            #print("Adding " + ni.name + " to visited list")
+            print("Adding " + ni.name + " to visited list")
             visited.append(ni)
         else:
-            #print("Node " + ni.name + " is normal")
+            print("Node " + ni.name + " is normal")
             expansion: [] = expand(ni, visited, priority_queue)
             priority_queue.extend(expansion)
             node_counter += len(expansion)
-            #print("Adding " + ni.name + " to visited list")
+            print("Adding " + ni.name + " to visited list")
             visited.append(ni)
-        #print("Removing from queue")
+        print("Removing from queue")
         priority_queue.remove(ni)
         priority_queue.sort(key=operator.attrgetter('total_cost'))
     if len(results) == 0:
@@ -392,7 +419,7 @@ def ucs(start_state):
         nu: node = results[0]
         print("Best result is: " + nu.name)
         nu.print()
-        print(" Total nodes created: " + str(node_counter))
+        print("Total nodes created: " + str(node_counter))
         return results
 
 
