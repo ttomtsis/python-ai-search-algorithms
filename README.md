@@ -1,5 +1,5 @@
 # AI - 1h ergasia
-- UCS Implementation Branch
+- BFS Implementation Branch
 
-Looks stable, needs further debugging.
-When sure about stability AND clean can merge with master
+Based on UCS Branch. Will Implement Best-first
+search here.
