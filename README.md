@@ -1,5 +1,5 @@
 # AI - 1h ergasia
 - UCS Implementation Branch
 
-Semi-stable, needs further debugging.
-When fully stable AND clean can merge with master
+Looks stable, needs further debugging.
+When sure about stability AND clean can merge with master
