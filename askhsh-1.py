@@ -1,5 +1,4 @@
 import operator
-
 import node
 import random
 import copy
