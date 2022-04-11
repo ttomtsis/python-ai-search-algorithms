@@ -52,6 +52,10 @@ class MyNode:
         else:
             print("End State: False")
 
+        print("Total cost: " + str(self.total_cost))
+
+        print("Route: " + self.route)
+
     def remove_edge(self):
 
         if (self.up == False and self.down == False
