@@ -15,6 +15,10 @@ class MyNode:
         self.weight_right = 0
         self.end_state = False
 
+        # UCS
+        self.total_cost = 0
+        self.route = self.name
+
     def print(self):
         print("\n----- " + self.name + " -----")
 
@@ -47,6 +51,10 @@ class MyNode:
             print("End State: True")
         else:
             print("End State: False")
+
+        print("Total cost: " + str(self.total_cost))
+
+        print("Route: " + self.route)
 
     def remove_edge(self):
 
