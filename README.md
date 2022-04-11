@@ -4,3 +4,4 @@
 - Stis synarthseis xrhsimopoihse global vars
 - kane nodesList global
 - kane to grafo klash ?
+- Kane to print tou total_cost kalytero
