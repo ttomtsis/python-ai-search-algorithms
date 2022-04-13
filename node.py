@@ -13,11 +13,17 @@ class MyNode:
         self.weight_down = 0
         self.weight_left = 0
         self.weight_right = 0
-        self.end_state = False
+        self.end_state = False  # State
 
         # UCS
-        self.total_cost = 0
-        self.route = self.name
+        self.total_cost = 0  # Path Cost
+        self.route = self.name  # Parents
+
+        # BFS
+        self.x = -1
+        self.y = -1
+        self.manhattan = -1
+
 
     def print(self):
         print("\n----- " + self.name + " -----")
@@ -81,3 +87,6 @@ class MyNode:
                 self.right = False
                 self.weight_right = 0
                 return 1
+
+    def me(self):
+        return self
