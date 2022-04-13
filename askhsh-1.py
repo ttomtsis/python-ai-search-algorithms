@@ -30,7 +30,10 @@ def create_graph(n):
     for x in range(0, n):
         cols = []
         for y in range(0, n):
-            cols.append(node.MyNode(str(counter)))
+            ni = node.MyNode(str(counter))
+            ni.x = x
+            ni.y = y
+            cols.append(ni)
             counter += 1
         nodes.append(cols)
     # ni: node.MyNode = nodes[1][0]
@@ -200,8 +203,30 @@ def set_states(node_list):
     print("---------------")
 
 
-def calc_distance(x, y):
-    print("Calculating Manhattan Distance")
+def calc_distance(x1, x2, y1, y2):
+    x = x1 - x2
+    if x < 0:
+        x = x * (-1)
+    y = y1 - y2
+    if y < 0:
+        y = y * (-1)
+    return x + y
+
+
+def create_distance_table(node_list):
+    print("Creating Approximate Distances Table")
+    global end_state_1
+    global end_state_2
+
+    for x in range(0, n):
+        for y in range(0, n):
+            ni: node.MyNode = node_list[x][y]
+            dist_1 = calc_distance(ni.x, end_state_1.x, ni.y, end_state_1.y)
+            dist_2 = calc_distance(ni.x, end_state_2.x, ni.y, end_state_2.y)
+            if dist_1 < dist_2:
+                ni.manhattan = dist_1
+            else:
+                ni.manhattan = dist_2
 
 
 # giati priority queue kai visited san orisma ?
@@ -290,15 +315,15 @@ def expand(my_node, visited, queue):
         in_queue = False
         in_visited = False
         # Yparxei sto queue ?
-        for x in range(0,len(queue)):
-            qi : node = queue[x]
+        for x in range(0, len(queue)):
+            qi: node = queue[x]
             if ni.left.name == qi.name:
                 in_queue = True
                 pos = x
 
         # Yparxei sto visited ?
-        for x in range(0,len(visited)):
-            qi : node = visited[x]
+        for x in range(0, len(visited)):
+            qi: node = visited[x]
             if ni.left.name == qi.name:
                 in_visited = True
 
@@ -364,6 +389,10 @@ def expand(my_node, visited, queue):
     return expansion
 
 
+def bfs():
+    global start_state
+
+
 def ucs(start_state):
     print("\nPerforming Unified Cost Search on Graph")
     global node_counter
@@ -410,6 +439,8 @@ def ucs(start_state):
         print("Removing from queue")
         priority_queue.remove(ni)
         priority_queue.sort(key=operator.attrgetter('total_cost'))
+
+    # Print Results
     if len(results) == 0:
         print("UCS Search cannot reach end state")
     else:
@@ -432,22 +463,23 @@ remove_edges(p, nodesList)
 set_states(nodesList)
 print_graph(nodesList)
 
-start_state = nodesList[0][0]  # 1
+# start_state = nodesList[0][0]  # 1
+print("\nStart State: " + start_state.name)
 
+print("End State 1: " + end_state_1.name)
+
+print("End State 2: " + end_state_2.name + "\n")
+
+create_distance_table(nodesList)
+
+# ucs(start_state)
+'''
 ni: node.MyNode = start_state
 print("\nStart State: " + ni.name)
-ni: node.MyNode = end_state_1
-print("End State 1: " + ni.name)
-ni: node.MyNode = end_state_2
-print("End State 2: " + ni.name)
-ucs(start_state)
+for x in range(0, n):
+    try:
+        y = nodesList[x].index(ni)
 
-'''
-# Prints expansion
-v = []
-q = []
-e = expand(start_state, v, q)
-for x in range(0, len(e)):
-    ni: node = e[x]
-    print("Name: " + ni.name + ": " + "Route: " + ni.route)
+    except ValueError:
+        pass
 '''
