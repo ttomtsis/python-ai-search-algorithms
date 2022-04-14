@@ -392,7 +392,17 @@ def expand(my_node):
     return expansion
 
 
-def bfs():
+def unified_cost_search():
+    global priority_queue, done
+
+    priority_queue.sort(key=operator.attrgetter('total_cost'))
+
+    if len(priority_queue) == 0:
+        print("Queue size = 0, im done")
+        done = True
+
+
+def bfs(eval_function):
     global results, visited, priority_queue
     global start_state, end_state_2, end_state_1
     global node_counter, done
@@ -400,8 +410,14 @@ def bfs():
     in_visited = False
 
     priority_queue.append(start_state)
+    '''
+    print("QUEUE:")
+    for x in range(0, len(priority_queue)):
+        pp: node = priority_queue[x]
+        print(pp.name)
+    '''
+    while not done:
 
-    while len(priority_queue) != 0:
         ni: node = priority_queue[0]
 
         '''
@@ -438,71 +454,7 @@ def bfs():
             visited.append(ni)
         print("Removing from queue")
         priority_queue.remove(ni)
-        priority_queue.sort(key=operator.attrgetter('total_cost'))
-
-
-def ucs():
-    print("\nPerforming Unified Cost Search on Graph")
-    global results, visited, priority_queue
-    global start_state, end_state_2, end_state_1
-    global node_counter
-
-    in_visited = False
-
-    priority_queue.append(start_state)
-
-    while len(priority_queue) != 0:
-        ni: node = priority_queue[0]
-
-        '''
-        print("QUEUE:")
-        for x in range(0, len(priority_queue)):
-            pp: node = priority_queue[x]
-            print(pp.name)
-        '''
-
-        for x in range(0, len(visited)):
-            qi: node = visited[x]
-            if ni.name == qi.name:
-                in_visited = True
-
-        if in_visited:
-            print("Node " + ni.name + " already visited")
-            pass
-        elif ni.end_state and not in_visited:
-            print("--- Node " + ni.name + " is end state, adding to results")  # Des apo to biblio thn shmeiosh
-            print("Route of node is: " + ni.route)
-            print("Cost of node is: " + str(ni.total_cost))
-            results.append(ni)
-            expansion: [] = expand(ni)
-            priority_queue.extend(expansion)
-            node_counter += len(expansion)
-            print("Adding " + ni.name + " to visited list")
-            visited.append(ni)
-        else:
-            print("Node " + ni.name + " is normal")
-            expansion: [] = expand(ni)
-            priority_queue.extend(expansion)
-            node_counter += len(expansion)
-            print("Adding " + ni.name + " to visited list")
-            visited.append(ni)
-        print("Removing from queue")
-        priority_queue.remove(ni)
-        priority_queue.sort(key=operator.attrgetter('total_cost'))
-
-    # Print Results
-    if len(results) == 0:
-        print("UCS Search cannot reach end state")
-    else:
-        results.sort(key=operator.attrgetter('total_cost'))
-        # print("Results are: ")
-        # print_graph(results)
-        nu: node = results[0]
-        print("Best result is: " + nu.name)
-        nu.print()
-        print("Total nodes created: " + str(node_counter))
-        return results
-
+        eval_function()
 
 # n = int(input("Enter n: "))
 # p: int = int(input("Enter p: "))
@@ -511,17 +463,26 @@ def ucs():
 nodesList = create_graph(n)
 remove_edges(p, nodesList)
 set_states(nodesList)
+create_distance_table(nodesList)
 print_graph(nodesList)
 
 #start_state = nodesList[0][0]  # 1
 print("\nStart State: " + start_state.name)
-
 print("End State 1: " + end_state_1.name)
-
 print("End State 2: " + end_state_2.name + "\n")
 
-create_distance_table(nodesList)
+bfs(unified_cost_search)
 
+if len(results) == 0:
+    print("UCS Search cannot reach end state")
+else:
+    results.sort(key=operator.attrgetter('total_cost'))
+    # print("Results are: ")
+    # print_graph(results)
+    nu: node = results[0]
+    print("Best result is: " + nu.name)
+    nu.print()
+    print("Total nodes created: " + str(node_counter))
 #ucs(start_state)
 '''
 ni: node.MyNode = start_state
