@@ -269,13 +269,15 @@ def expand(my_node):
             pi: node = priority_queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_up
-            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            clone.route = ni.route + " + " + clone.name
+            clone.parent = ni
             expansion.append(clone)
 
         if not in_queue and not in_visited:
             print("normie")
             ni.up.total_cost = ni.total_cost + ni.weight_up
             ni.up.route = ni.route + " + " + ni.up.name
+            ni.up.parent = ni
             expansion.append(ni.up)
     if type(ni.down) == node.MyNode:
         print("down")
@@ -305,13 +307,15 @@ def expand(my_node):
             pi: node = priority_queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_down
-            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            clone.route = ni.route + " + " + clone.name
+            clone.parent = ni
             expansion.append(clone)
 
         if not in_queue and not in_visited:
             print("normie")
             ni.down.total_cost = ni.total_cost + ni.weight_down
             ni.down.route = ni.route + " + " + ni.down.name
+            ni.down.parent = ni
             expansion.append(ni.down)
     if type(ni.left) == node.MyNode:
         print("left")
@@ -341,13 +345,15 @@ def expand(my_node):
             pi: node = priority_queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_left
-            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            clone.route = ni.route + " + " + clone.name
+            clone.parent = ni
             expansion.append(clone)
 
         if not in_queue and not in_visited:
             print("normie")
             ni.left.total_cost = ni.total_cost + ni.weight_left
             ni.left.route = ni.route + " + " + ni.left.name
+            ni.left.parent = ni
             expansion.append(ni.left)
     if type(ni.right) == node.MyNode:
         print("right")
@@ -377,22 +383,26 @@ def expand(my_node):
             pi: node = priority_queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_right
-            clone.route = ni.route + " + " + clone.name  # prone to fuck up ?
+            clone.route = ni.route + " + " + clone.name
+            clone.parent = ni
             expansion.append(clone)
 
         if not in_queue and not in_visited:
             print("normie")
             ni.right.total_cost = ni.total_cost + ni.weight_right
             ni.right.route = ni.route + " + " + ni.right.name
+            ni.right.parent = ni
             expansion.append(ni.right)
 
     for x in range(0, len(expansion)):
         zi: node = expansion[x]
         print("Expansion: " + zi.name + " COST: " + str(zi.total_cost))
+        print("Parent: " + zi.parent.name)
     return expansion
 
 
-def unified_cost_search():
+#  PATH-COST Evaluation function
+def path_cost():
     global priority_queue, done
 
     priority_queue.sort(key=operator.attrgetter('total_cost'))
@@ -400,6 +410,23 @@ def unified_cost_search():
     if len(priority_queue) == 0:
         print("Queue size = 0, im done")
         done = True
+
+
+#  Minimum Manhattan Distance
+def min_distance():
+    global priority_queue, results, start_state,  done
+
+    priority_queue.sort(key=operator.attrgetter('manhattan'))
+
+    if len(results) != 0:  # Check if Path exists
+        # Iterate all the way up the tree
+        ni: node = results[0]
+        while ni.parent is not None:
+            ni = ni.parent
+        if ni.name == start_state.name:
+            done = True
+        else:
+            results.remove(ni)
 
 
 def bfs(eval_function):
@@ -456,6 +483,39 @@ def bfs(eval_function):
         priority_queue.remove(ni)
         eval_function()
 
+
+def print_result():
+    global results
+
+    if len(results) == 0:
+        print("Search cannot reach end state")
+    else:
+        results.sort(key=operator.attrgetter('total_cost'))
+        # print("Results are: ")
+        # print_graph(results)
+        nu: node = results[0]
+        print("\nBest result is: " + nu.name)
+        nu.print()
+        print("Total nodes created: " + str(node_counter))
+        print("\n")
+
+
+def reset(node_list):
+    global results, priority_queue, visited
+    global done, node_counter, n
+
+    results.clear()
+    priority_queue.clear()
+    visited.clear()
+    done = False
+    node_counter = 0
+
+    for x in range(0, n):
+        for y in range(0, n):
+            ni: node = node_list[x][y]
+            ni.reset()
+
+
 # n = int(input("Enter n: "))
 # p: int = int(input("Enter p: "))
 # max_weight = int(input("Enter max: "))
@@ -466,31 +526,39 @@ set_states(nodesList)
 create_distance_table(nodesList)
 print_graph(nodesList)
 
-#start_state = nodesList[0][0]  # 1
+# start_state = nodesList[0][0]  # 1
 print("\nStart State: " + start_state.name)
 print("End State 1: " + end_state_1.name)
 print("End State 2: " + end_state_2.name + "\n")
 
-bfs(unified_cost_search)
+cont = True
+while cont:
+    print("=====|  WELCOME  |=====")
+    print("1 - Uniform Cost Search")
+    print("2 - Greedy Best First Search")
+    print("3 - A* Search")
+    print("4 - Show States")
+    print("5 - Exit")
+    choice = input("\nEnter choice: ")
 
-if len(results) == 0:
-    print("UCS Search cannot reach end state")
-else:
-    results.sort(key=operator.attrgetter('total_cost'))
-    # print("Results are: ")
-    # print_graph(results)
-    nu: node = results[0]
-    print("Best result is: " + nu.name)
-    nu.print()
-    print("Total nodes created: " + str(node_counter))
-#ucs(start_state)
-'''
-ni: node.MyNode = start_state
-print("\nStart State: " + ni.name)
-for x in range(0, n):
-    try:
-        y = nodesList[x].index(ni)
+    if choice == "1":
+        reset(nodesList)
+        bfs(path_cost)
+        print_result()
+    elif choice == "2":
+        reset(nodesList)
+        bfs(min_distance)
+        print_result()
+    elif choice == "3":
+        reset(nodesList)
+        bfs()
+        print_result()
+    elif choice == "4":
+        print("\nStart State: " + start_state.name)
+        print("End State 1: " + end_state_1.name)
+        print("End State 2: " + end_state_2.name + "\n")
+    elif choice == "5":
+        cont = False
+    else:
+        print("\n---Invalid Input---\n")
 
-    except ValueError:
-        pass
-'''
