@@ -19,6 +19,7 @@ results = []
 node_counter = 0
 done = False
 
+
 def rand_weight():
     return int(random.randrange(1, max_weight))
 
@@ -217,7 +218,7 @@ def calc_distance(x1, x2, y1, y2):
     return x + y
 
 
-def create_distance_table(node_list):
+def create_heuristics(node_list):
     print("Creating Approximate Distances Table")
     global end_state_1
     global end_state_2
@@ -231,6 +232,7 @@ def create_distance_table(node_list):
                 ni.manhattan = dist_1
             else:
                 ni.manhattan = dist_2
+            ni.a_star_cost = ni.manhattan
 
 
 # giati priority queue kai visited san orisma ?
@@ -271,6 +273,7 @@ def expand(my_node):
             clone.total_cost = ni.total_cost + ni.weight_up
             clone.route = ni.route + " + " + clone.name
             clone.parent = ni
+            clone.a_star_cost = clone.manhattan + clone.total_cost
             expansion.append(clone)
 
         if not in_queue and not in_visited:
@@ -278,6 +281,7 @@ def expand(my_node):
             ni.up.total_cost = ni.total_cost + ni.weight_up
             ni.up.route = ni.route + " + " + ni.up.name
             ni.up.parent = ni
+            ni.up.a_star_cost = ni.up.total_cost + ni.up.manhattan
             expansion.append(ni.up)
     if type(ni.down) == node.MyNode:
         print("down")
@@ -309,6 +313,7 @@ def expand(my_node):
             clone.total_cost = ni.total_cost + ni.weight_down
             clone.route = ni.route + " + " + clone.name
             clone.parent = ni
+            clone.a_star_cost = clone.manhattan + clone.total_cost
             expansion.append(clone)
 
         if not in_queue and not in_visited:
@@ -316,6 +321,7 @@ def expand(my_node):
             ni.down.total_cost = ni.total_cost + ni.weight_down
             ni.down.route = ni.route + " + " + ni.down.name
             ni.down.parent = ni
+            ni.down.a_star_cost = ni.down.total_cost + ni.down.manhattan
             expansion.append(ni.down)
     if type(ni.left) == node.MyNode:
         print("left")
@@ -347,6 +353,7 @@ def expand(my_node):
             clone.total_cost = ni.total_cost + ni.weight_left
             clone.route = ni.route + " + " + clone.name
             clone.parent = ni
+            clone.a_star_cost = clone.manhattan + clone.total_cost
             expansion.append(clone)
 
         if not in_queue and not in_visited:
@@ -354,6 +361,7 @@ def expand(my_node):
             ni.left.total_cost = ni.total_cost + ni.weight_left
             ni.left.route = ni.route + " + " + ni.left.name
             ni.left.parent = ni
+            ni.left.a_star_cost = ni.left.total_cost + ni.left.manhattan
             expansion.append(ni.left)
     if type(ni.right) == node.MyNode:
         print("right")
@@ -385,6 +393,7 @@ def expand(my_node):
             clone.total_cost = ni.total_cost + ni.weight_right
             clone.route = ni.route + " + " + clone.name
             clone.parent = ni
+            clone.a_star_cost = clone.manhattan + clone.total_cost
             expansion.append(clone)
 
         if not in_queue and not in_visited:
@@ -392,6 +401,7 @@ def expand(my_node):
             ni.right.total_cost = ni.total_cost + ni.weight_right
             ni.right.route = ni.route + " + " + ni.right.name
             ni.right.parent = ni
+            ni.right.a_star_cost = ni.right.total_cost + ni.right.manhattan
             expansion.append(ni.right)
 
     for x in range(0, len(expansion)):
@@ -429,6 +439,16 @@ def min_distance():
             results.remove(ni)
 
 
+def min_distance_and_path_cost():
+    global priority_queue, results, start_state, done
+
+    priority_queue.sort(key=operator.attrgetter('a_star_cost'))
+
+    if len(priority_queue) == 0:
+        print("Queue size = 0, im done")
+        done = True
+
+
 def bfs(eval_function):
     global results, visited, priority_queue
     global start_state, end_state_2, end_state_1
@@ -437,12 +457,12 @@ def bfs(eval_function):
     in_visited = False
 
     priority_queue.append(start_state)
-    '''
+
     print("QUEUE:")
     for x in range(0, len(priority_queue)):
         pp: node = priority_queue[x]
         print(pp.name)
-    '''
+
     while not done:
 
         ni: node = priority_queue[0]
@@ -523,14 +543,16 @@ def reset(node_list):
 nodesList = create_graph(n)
 remove_edges(p, nodesList)
 set_states(nodesList)
-create_distance_table(nodesList)
+create_heuristics(nodesList)
 print_graph(nodesList)
 
 # start_state = nodesList[0][0]  # 1
 print("\nStart State: " + start_state.name)
 print("End State 1: " + end_state_1.name)
 print("End State 2: " + end_state_2.name + "\n")
-
+bfs(min_distance_and_path_cost)
+print_result()
+'''
 cont = True
 while cont:
     print("=====|  WELCOME  |=====")
@@ -551,7 +573,7 @@ while cont:
         print_result()
     elif choice == "3":
         reset(nodesList)
-        bfs()
+        bfs(min_distance_and_path_cost)
         print_result()
     elif choice == "4":
         print("\nStart State: " + start_state.name)
@@ -561,4 +583,4 @@ while cont:
         cont = False
     else:
         print("\n---Invalid Input---\n")
-
+'''
