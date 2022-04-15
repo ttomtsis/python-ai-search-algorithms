@@ -12,9 +12,6 @@ class MyNode:
         self.x = -1
         self.y = -1
 
-        # Manhattan distance from CLOSEST end state
-        self.manhattan = -1
-
         # Node Neighbors and weights
         self.up = False
         self.down = False
@@ -28,6 +25,12 @@ class MyNode:
 
         # Total Path Cost
         self.total_cost = 0  # Path Cost
+
+        # Manhattan distance from CLOSEST end state
+        self.manhattan = -1
+
+        # A* cost, Total path cost + Manhattan distance
+        self.a_star_cost = -1
 
         # Route taken, to easily print ( Remove ? )
         self.route = self.name  # Parents, to view easily
@@ -73,6 +76,8 @@ class MyNode:
 
         print("Manhattan Distance: " + str(self.manhattan))
 
+        print("A* Cost: " + str(self.a_star_cost))
+
         print("Route: " + self.route)
 
     # Removes random node edge
@@ -107,4 +112,5 @@ class MyNode:
     def reset(self):
         self.parent = None
         self.total_cost = 0
+        self.a_star_cost = self.manhattan
         self.route = self.name
