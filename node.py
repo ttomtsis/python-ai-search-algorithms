@@ -113,13 +113,14 @@ class MyNode:
 
     # giati priority queue kai visited san orisma ?
     def expand(self, my_node, visited, priority_queue):
+
         expansion = []
-        in_queue = False
-        in_visited = False
         ni: MyNode = my_node
-        print("Expanding MyNode: " + ni.name)
+
+        print("EXPANDING : " + ni.name)
 
         if type(ni.up) == MyNode:
+            print("Node has neighbor UP: " + ni.up.name)
             in_queue = False
             in_visited = False
             # Yparxei sto queue ?
@@ -135,11 +136,13 @@ class MyNode:
                     in_visited = True
 
             if in_visited:
+                print("UP neighbour is visited")
                 pass
 
             # Periptosh diplotypou me diaforetiko kostos
             if in_queue and not in_visited:
                 # Clone object, new object has new cost :)
+                print("Node " + ni.up.name + " is in queue and not in visited. will clone")
                 pi: MyNode = priority_queue[pos]
                 clone = copy.deepcopy(pi)
                 clone.total_cost = ni.total_cost + ni.weight_up
@@ -149,12 +152,14 @@ class MyNode:
                 expansion.append(clone)
 
             if not in_queue and not in_visited:
+                print("Node " + ni.up.name + " is a normal case")
                 ni.up.total_cost = ni.total_cost + ni.weight_up
                 ni.up.route = ni.route + " + " + ni.up.name
                 ni.up.parent = ni
                 ni.up.a_star_cost = ni.up.total_cost + ni.up.manhattan
                 expansion.append(ni.up)
         if type(ni.down) == MyNode:
+            print("Node has neighbour DOWN: " + ni.down.name)
             in_queue = False
             in_visited = False
             # Yparxei sto queue ?
@@ -171,13 +176,13 @@ class MyNode:
                     in_visited = True
 
             if in_visited:
-                print("Already visited")
+                print("Down neighbour " + ni.down.name + " visited already")
                 pass
 
             # Periptosh diplotypou me diaforetiko kostos
             if in_queue and not in_visited:
                 # Clone object, new object has new cost :)
-                print("Clone")
+                print("Node " + ni.down.name + " is in queue and not in visited")
                 pi: MyNode = priority_queue[pos]
                 clone = copy.deepcopy(pi)
                 clone.total_cost = ni.total_cost + ni.weight_down
@@ -187,14 +192,14 @@ class MyNode:
                 expansion.append(clone)
 
             if not in_queue and not in_visited:
-                print("normie")
+                print("Node " + ni.down.name + " is a normal case")
                 ni.down.total_cost = ni.total_cost + ni.weight_down
                 ni.down.route = ni.route + " + " + ni.down.name
                 ni.down.parent = ni
                 ni.down.a_star_cost = ni.down.total_cost + ni.down.manhattan
                 expansion.append(ni.down)
         if type(ni.left) == MyNode:
-            print("left")
+            print("Node has neighbour LEFT: " + ni.left.name)
             in_queue = False
             in_visited = False
             # Yparxei sto queue ?
@@ -211,13 +216,13 @@ class MyNode:
                     in_visited = True
 
             if in_visited:
-                print("Already visited")
+                print("Left neighbour" + ni.left.name + "Already visited")
                 pass
 
             # Periptosh diplotypou me diaforetiko kostos
             if in_queue and not in_visited:
                 # Clone object, new object has new cost :)
-                print("Clone")
+                print("Node " + ni.left.name + " will be cloned")
                 pi: MyNode = priority_queue[pos]
                 clone = copy.deepcopy(pi)
                 clone.total_cost = ni.total_cost + ni.weight_left
@@ -227,14 +232,14 @@ class MyNode:
                 expansion.append(clone)
 
             if not in_queue and not in_visited:
-                print("normie")
+                print("Node " + ni.left.name + " is a normal case")
                 ni.left.total_cost = ni.total_cost + ni.weight_left
                 ni.left.route = ni.route + " + " + ni.left.name
                 ni.left.parent = ni
                 ni.left.a_star_cost = ni.left.total_cost + ni.left.manhattan
                 expansion.append(ni.left)
         if type(ni.right) == MyNode:
-            print("right")
+            print("Node has Neighbour RIGHT: " + ni.right.name)
             in_queue = False
             in_visited = False
             # Yparxei sto queue ?
@@ -251,13 +256,13 @@ class MyNode:
                     in_visited = True
 
             if in_visited:
-                print("Already visited")
+                print("Right neighbour " + ni.right.name + "Already visited")
                 pass
 
             # Periptosh diplotypou me diaforetiko kostos
             if in_queue and not in_visited:
                 # Clone object, new object has new cost :)
-                print("Clone")
+                print("Node " + ni.right.name + " will be cloned")
                 pi: MyNode = priority_queue[pos]
                 clone = copy.deepcopy(pi)
                 clone.total_cost = ni.total_cost + ni.weight_right
@@ -267,7 +272,7 @@ class MyNode:
                 expansion.append(clone)
 
             if not in_queue and not in_visited:
-                print("normie")
+                print("Node " + ni.right.name + " is a normal case")
                 ni.right.total_cost = ni.total_cost + ni.weight_right
                 ni.right.route = ni.route + " + " + ni.right.name
                 ni.right.parent = ni
@@ -276,6 +281,6 @@ class MyNode:
 
         for x in range(0, len(expansion)):
             zi: MyNode = expansion[x]
-            print("Expansion: " + zi.name + " COST: " + str(zi.total_cost))
+            print("EXPANSION: " + zi.name + " COST: " + str(zi.total_cost))
             print("Parent: " + zi.parent.name)
         return expansion
