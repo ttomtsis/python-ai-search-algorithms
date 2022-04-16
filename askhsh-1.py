@@ -1,3 +1,11 @@
+"""
+This file contains the best first search algorithm
+along with the evaluation functions it uses, it serves
+as the basis of the project's execution. It creates
+a graph after taking user input and performs a series of
+search algorithms.
+"""
+
 import node
 import graph
 import operator
@@ -17,13 +25,13 @@ results = []  # Results will be stored here, we consider a valid result
 node_counter = 1  # Counts nodes of search tree, starts with 1 to include start-state
 done = False  # Will be used to mark the end of a search process. Is manipulated by evaluation functions.
 
-'''
+"""
 Below are the 3 evaluation functions used,
 the logic behind their implementation is as follows.
 Priority_queue is sorted according to a criteria, eg path-cost.
 Then depending on the algorithm a condition is checked to consider
 if the algorithm has reached the end of the searching process or not
-'''
+"""
 
 
 #  PATH-COST Evaluation function
