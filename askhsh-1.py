@@ -540,9 +540,11 @@ def reset():
 # p: int = int(input("Enter p: "))
 # max_weight = int(input("Enter max: "))
 create_graph()
+
 print("\nStart State: " + start_state.name)
 print("End State 1: " + end_state_1.name)
 print("End State 2: " + end_state_2.name + "\n")
+
 bfs(min_distance_and_path_cost)
 print_result()
 '''
