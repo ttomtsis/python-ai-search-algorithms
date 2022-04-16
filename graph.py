@@ -13,6 +13,10 @@ class Graph:
         self.end_state_2 = None
         self.nodesList = []
         self.create_graph()
+        self.remove_edges()
+        self.set_states()
+        self.create_heuristics()
+        self.print_graph()
 
     def print_graph(self):
 
@@ -131,10 +135,6 @@ class Graph:
                         temp.weight_up = self.rand_weight()
 
         print("Graph Created")
-        self.remove_edges()
-        self.set_states()
-        self.create_heuristics()
-        self.print_graph()
 
     def remove_edges(self):
 
