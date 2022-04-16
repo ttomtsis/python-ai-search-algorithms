@@ -240,177 +240,6 @@ def create_heuristics():
             ni.a_star_cost = ni.manhattan
 
 
-# giati priority queue kai visited san orisma ?
-def expand(my_node):
-    global visited, priority_queue
-    expansion = []
-    in_queue = False
-    in_visited = False
-    ni: node = my_node
-    print("Expanding node: " + ni.name)
-
-    if type(ni.up) == node.MyNode:
-        in_queue = False
-        in_visited = False
-        # Yparxei sto queue ?
-        for x in range(0, len(priority_queue)):
-            qi: node = priority_queue[x]
-            if ni.up.name == qi.name:
-                in_queue = True
-                pos = x
-        # Yparxei sto visited ?
-        for x in range(0, len(visited)):
-            qi: node = visited[x]
-            if ni.up.name == qi.name:
-                in_visited = True
-
-        if in_visited:
-            pass
-
-        # Periptosh diplotypou me diaforetiko kostos
-        if in_queue and not in_visited:
-            # Clone object, new object has new cost :)
-            pi: node = priority_queue[pos]
-            clone = copy.deepcopy(pi)
-            clone.total_cost = ni.total_cost + ni.weight_up
-            clone.route = ni.route + " + " + clone.name
-            clone.parent = ni
-            clone.a_star_cost = clone.manhattan + clone.total_cost
-            expansion.append(clone)
-
-        if not in_queue and not in_visited:
-            ni.up.total_cost = ni.total_cost + ni.weight_up
-            ni.up.route = ni.route + " + " + ni.up.name
-            ni.up.parent = ni
-            ni.up.a_star_cost = ni.up.total_cost + ni.up.manhattan
-            expansion.append(ni.up)
-    if type(ni.down) == node.MyNode:
-        in_queue = False
-        in_visited = False
-        # Yparxei sto queue ?
-        for x in range(0, len(priority_queue)):
-            qi: node = priority_queue[x]
-            if ni.down.name == qi.name:
-                in_queue = True
-                pos = x
-
-        # Yparxei sto visited ?
-        for x in range(0, len(visited)):
-            qi: node = visited[x]
-            if ni.down.name == qi.name:
-                in_visited = True
-
-        if in_visited:
-            print("Already visited")
-            pass
-
-        # Periptosh diplotypou me diaforetiko kostos
-        if in_queue and not in_visited:
-            # Clone object, new object has new cost :)
-            print("Clone")
-            pi: node = priority_queue[pos]
-            clone = copy.deepcopy(pi)
-            clone.total_cost = ni.total_cost + ni.weight_down
-            clone.route = ni.route + " + " + clone.name
-            clone.parent = ni
-            clone.a_star_cost = clone.manhattan + clone.total_cost
-            expansion.append(clone)
-
-        if not in_queue and not in_visited:
-            print("normie")
-            ni.down.total_cost = ni.total_cost + ni.weight_down
-            ni.down.route = ni.route + " + " + ni.down.name
-            ni.down.parent = ni
-            ni.down.a_star_cost = ni.down.total_cost + ni.down.manhattan
-            expansion.append(ni.down)
-    if type(ni.left) == node.MyNode:
-        print("left")
-        in_queue = False
-        in_visited = False
-        # Yparxei sto queue ?
-        for x in range(0, len(priority_queue)):
-            qi: node = priority_queue[x]
-            if ni.left.name == qi.name:
-                in_queue = True
-                pos = x
-
-        # Yparxei sto visited ?
-        for x in range(0, len(visited)):
-            qi: node = visited[x]
-            if ni.left.name == qi.name:
-                in_visited = True
-
-        if in_visited:
-            print("Already visited")
-            pass
-
-        # Periptosh diplotypou me diaforetiko kostos
-        if in_queue and not in_visited:
-            # Clone object, new object has new cost :)
-            print("Clone")
-            pi: node = priority_queue[pos]
-            clone = copy.deepcopy(pi)
-            clone.total_cost = ni.total_cost + ni.weight_left
-            clone.route = ni.route + " + " + clone.name
-            clone.parent = ni
-            clone.a_star_cost = clone.manhattan + clone.total_cost
-            expansion.append(clone)
-
-        if not in_queue and not in_visited:
-            print("normie")
-            ni.left.total_cost = ni.total_cost + ni.weight_left
-            ni.left.route = ni.route + " + " + ni.left.name
-            ni.left.parent = ni
-            ni.left.a_star_cost = ni.left.total_cost + ni.left.manhattan
-            expansion.append(ni.left)
-    if type(ni.right) == node.MyNode:
-        print("right")
-        in_queue = False
-        in_visited = False
-        # Yparxei sto queue ?
-        for x in range(0, len(priority_queue)):
-            qi: node = priority_queue[x]
-            if ni.right.name == qi.name:
-                in_queue = True
-                pos = x
-
-        # Yparxei sto visited ?
-        for x in range(0, len(visited)):
-            qi: node = visited[x]
-            if ni.right.name == qi.name:
-                in_visited = True
-
-        if in_visited:
-            print("Already visited")
-            pass
-
-        # Periptosh diplotypou me diaforetiko kostos
-        if in_queue and not in_visited:
-            # Clone object, new object has new cost :)
-            print("Clone")
-            pi: node = priority_queue[pos]
-            clone = copy.deepcopy(pi)
-            clone.total_cost = ni.total_cost + ni.weight_right
-            clone.route = ni.route + " + " + clone.name
-            clone.parent = ni
-            clone.a_star_cost = clone.manhattan + clone.total_cost
-            expansion.append(clone)
-
-        if not in_queue and not in_visited:
-            print("normie")
-            ni.right.total_cost = ni.total_cost + ni.weight_right
-            ni.right.route = ni.route + " + " + ni.right.name
-            ni.right.parent = ni
-            ni.right.a_star_cost = ni.right.total_cost + ni.right.manhattan
-            expansion.append(ni.right)
-
-    for x in range(0, len(expansion)):
-        zi: node = expansion[x]
-        print("Expansion: " + zi.name + " COST: " + str(zi.total_cost))
-        print("Parent: " + zi.parent.name)
-    return expansion
-
-
 #  PATH-COST Evaluation function
 def path_cost():
     global priority_queue, done
@@ -487,14 +316,14 @@ def bfs(eval_function):
             print("Route of node is: " + ni.route)
             print("Cost of node is: " + str(ni.total_cost))
             results.append(ni)
-            expansion: [] = expand(ni)
+            expansion: [] = ni.expand(ni, visited, priority_queue)
             priority_queue.extend(expansion)
             node_counter += len(expansion)
             print("Adding " + ni.name + " to visited list")
             visited.append(ni)
         else:
             print("Node " + ni.name + " is normal")
-            expansion: [] = expand(ni)
+            expansion: [] = ni.expand(ni, visited, priority_queue)
             priority_queue.extend(expansion)
             node_counter += len(expansion)
             print("Adding " + ni.name + " to visited list")

@@ -1,18 +1,19 @@
+import copy
 import random
 
 
 class MyNode:
 
-    # Constructor, n is node's name, eg: 1,2,3
+    # Constructor, n is MyNode's name, eg: 1,2,3
     def __init__(self, n):
-        # Node name
+        # MyNode name
         self.name = str(n)
 
         # Coordinates in Graph
         self.x = -1
         self.y = -1
 
-        # Node Neighbors and weights
+        # MyNode Neighbors and weights
         self.up = False
         self.down = False
         self.left = False
@@ -35,7 +36,7 @@ class MyNode:
         # Route taken, to easily print ( Remove ? )
         self.route = self.name  # Parents, to view easily
 
-        # Node's parent after expansion
+        # MyNode's parent after expansion
         self.parent = None
 
     # Prints fields
@@ -80,7 +81,7 @@ class MyNode:
 
         print("Route: " + self.route)
 
-    # Removes random node edge
+    # Removes random MyNode edge
     def remove_edge(self):
 
         if (self.up == False and self.down == False
@@ -114,3 +115,172 @@ class MyNode:
         self.total_cost = 0
         self.a_star_cost = self.manhattan
         self.route = self.name
+
+    # giati priority queue kai visited san orisma ?
+    def expand(self, my_node, visited, priority_queue):
+        expansion = []
+        in_queue = False
+        in_visited = False
+        ni: MyNode = my_node
+        print("Expanding MyNode: " + ni.name)
+
+        if type(ni.up) == MyNode:
+            in_queue = False
+            in_visited = False
+            # Yparxei sto queue ?
+            for x in range(0, len(priority_queue)):
+                qi: MyNode = priority_queue[x]
+                if ni.up.name == qi.name:
+                    in_queue = True
+                    pos = x
+            # Yparxei sto visited ?
+            for x in range(0, len(visited)):
+                qi: MyNode = visited[x]
+                if ni.up.name == qi.name:
+                    in_visited = True
+
+            if in_visited:
+                pass
+
+            # Periptosh diplotypou me diaforetiko kostos
+            if in_queue and not in_visited:
+                # Clone object, new object has new cost :)
+                pi: MyNode = priority_queue[pos]
+                clone = copy.deepcopy(pi)
+                clone.total_cost = ni.total_cost + ni.weight_up
+                clone.route = ni.route + " + " + clone.name
+                clone.parent = ni
+                clone.a_star_cost = clone.manhattan + clone.total_cost
+                expansion.append(clone)
+
+            if not in_queue and not in_visited:
+                ni.up.total_cost = ni.total_cost + ni.weight_up
+                ni.up.route = ni.route + " + " + ni.up.name
+                ni.up.parent = ni
+                ni.up.a_star_cost = ni.up.total_cost + ni.up.manhattan
+                expansion.append(ni.up)
+        if type(ni.down) == MyNode:
+            in_queue = False
+            in_visited = False
+            # Yparxei sto queue ?
+            for x in range(0, len(priority_queue)):
+                qi: MyNode = priority_queue[x]
+                if ni.down.name == qi.name:
+                    in_queue = True
+                    pos = x
+
+            # Yparxei sto visited ?
+            for x in range(0, len(visited)):
+                qi: MyNode = visited[x]
+                if ni.down.name == qi.name:
+                    in_visited = True
+
+            if in_visited:
+                print("Already visited")
+                pass
+
+            # Periptosh diplotypou me diaforetiko kostos
+            if in_queue and not in_visited:
+                # Clone object, new object has new cost :)
+                print("Clone")
+                pi: MyNode = priority_queue[pos]
+                clone = copy.deepcopy(pi)
+                clone.total_cost = ni.total_cost + ni.weight_down
+                clone.route = ni.route + " + " + clone.name
+                clone.parent = ni
+                clone.a_star_cost = clone.manhattan + clone.total_cost
+                expansion.append(clone)
+
+            if not in_queue and not in_visited:
+                print("normie")
+                ni.down.total_cost = ni.total_cost + ni.weight_down
+                ni.down.route = ni.route + " + " + ni.down.name
+                ni.down.parent = ni
+                ni.down.a_star_cost = ni.down.total_cost + ni.down.manhattan
+                expansion.append(ni.down)
+        if type(ni.left) == MyNode:
+            print("left")
+            in_queue = False
+            in_visited = False
+            # Yparxei sto queue ?
+            for x in range(0, len(priority_queue)):
+                qi: MyNode = priority_queue[x]
+                if ni.left.name == qi.name:
+                    in_queue = True
+                    pos = x
+
+            # Yparxei sto visited ?
+            for x in range(0, len(visited)):
+                qi: MyNode = visited[x]
+                if ni.left.name == qi.name:
+                    in_visited = True
+
+            if in_visited:
+                print("Already visited")
+                pass
+
+            # Periptosh diplotypou me diaforetiko kostos
+            if in_queue and not in_visited:
+                # Clone object, new object has new cost :)
+                print("Clone")
+                pi: MyNode = priority_queue[pos]
+                clone = copy.deepcopy(pi)
+                clone.total_cost = ni.total_cost + ni.weight_left
+                clone.route = ni.route + " + " + clone.name
+                clone.parent = ni
+                clone.a_star_cost = clone.manhattan + clone.total_cost
+                expansion.append(clone)
+
+            if not in_queue and not in_visited:
+                print("normie")
+                ni.left.total_cost = ni.total_cost + ni.weight_left
+                ni.left.route = ni.route + " + " + ni.left.name
+                ni.left.parent = ni
+                ni.left.a_star_cost = ni.left.total_cost + ni.left.manhattan
+                expansion.append(ni.left)
+        if type(ni.right) == MyNode:
+            print("right")
+            in_queue = False
+            in_visited = False
+            # Yparxei sto queue ?
+            for x in range(0, len(priority_queue)):
+                qi: MyNode = priority_queue[x]
+                if ni.right.name == qi.name:
+                    in_queue = True
+                    pos = x
+
+            # Yparxei sto visited ?
+            for x in range(0, len(visited)):
+                qi: MyNode = visited[x]
+                if ni.right.name == qi.name:
+                    in_visited = True
+
+            if in_visited:
+                print("Already visited")
+                pass
+
+            # Periptosh diplotypou me diaforetiko kostos
+            if in_queue and not in_visited:
+                # Clone object, new object has new cost :)
+                print("Clone")
+                pi: MyNode = priority_queue[pos]
+                clone = copy.deepcopy(pi)
+                clone.total_cost = ni.total_cost + ni.weight_right
+                clone.route = ni.route + " + " + clone.name
+                clone.parent = ni
+                clone.a_star_cost = clone.manhattan + clone.total_cost
+                expansion.append(clone)
+
+            if not in_queue and not in_visited:
+                print("normie")
+                ni.right.total_cost = ni.total_cost + ni.weight_right
+                ni.right.route = ni.route + " + " + ni.right.name
+                ni.right.parent = ni
+                ni.right.a_star_cost = ni.right.total_cost + ni.right.manhattan
+                expansion.append(ni.right)
+
+        for x in range(0, len(expansion)):
+            zi: MyNode = expansion[x]
+            print("Expansion: " + zi.name + " COST: " + str(zi.total_cost))
+            print("Parent: " + zi.parent.name)
+        return expansion
