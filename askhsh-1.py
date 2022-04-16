@@ -1,7 +1,6 @@
 import node
 import graph
 import operator
-import copy
 
 max_weight = 10
 n = 3
@@ -14,7 +13,7 @@ priority_queue = []
 visited = []
 results = []
 
-node_counter = 0
+node_counter = 1  # Start-State
 done = False
 
 
@@ -59,23 +58,22 @@ def bfs(eval_function):
     global results, visited, priority_queue
     global node_counter, done
 
-    in_visited = False
-
     priority_queue.append(nodesList.start_state)
-
-    print("QUEUE:")
-    for x in range(0, len(priority_queue)):
-        pp: node = priority_queue[x]
-        print(pp.name)
 
     while not done:
 
         ni: node = priority_queue[0]
+        in_visited = False
 
         '''
-        print("QUEUE:")
+        print("PRIORITY QUEUE:")
         for x in range(0, len(priority_queue)):
             pp: node = priority_queue[x]
+            print(pp.name)
+
+        print("VISITED LIST")
+        for x in range(0, len(visited)):
+            pp: node = visited[x]
             print(pp.name)
         '''
 
@@ -98,7 +96,7 @@ def bfs(eval_function):
             print("Adding " + ni.name + " to visited list")
             visited.append(ni)
         else:
-            print("Node " + ni.name + " is normal")
+            print("Node " + ni.name + " is normal CASE")
             expansion: [] = ni.expand(ni, visited, priority_queue)
             priority_queue.extend(expansion)
             node_counter += len(expansion)
