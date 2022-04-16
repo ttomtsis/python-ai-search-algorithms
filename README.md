@@ -10,3 +10,5 @@ BFS implemented
 UCS, A* implemented by changing eval functions
 Need further testing for A*, comments and improvements
 Graph Class added, expand() moved to Node.
+FIXED: A* Issues
+askhsh-1.py is production ready
