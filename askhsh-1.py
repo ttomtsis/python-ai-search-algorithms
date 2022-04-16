@@ -2,9 +2,9 @@ import node
 import graph
 import operator
 
-max_weight = 10  # Maximum Edge Cost
-n = 3  # Graph dimensions ( n x n )
-p = 20  # Percent of edges to be removed
+max_weight: int  # Maximum Edge Cost
+n: int  # Graph dimensions ( n x n )
+p: int  # Percent of edges to be removed
 
 nodesList: graph  # Graph will be stored here
 
