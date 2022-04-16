@@ -1,5 +1,10 @@
-# AI - 1h ergasia
-- BFS Implementation Branch
 
-BFS stable for now, A* implementation pending
-Basic Menu implemented, look on issues for enhancements
+# AI - 1h ergasia
+
+Current progress of project,
+this branch represents current stable release
+
+UPDATE:
+BFS implemented
+UCS, A* implemented by changing eval functions
+Need further testing for A*, comments and improvements
