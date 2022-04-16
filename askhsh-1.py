@@ -19,16 +19,18 @@ results = []
 node_counter = 0
 done = False
 
+nodesList = []
+
 
 def rand_weight():
     return int(random.randrange(1, max_weight))
 
 
-def create_graph(n):
+def create_graph():
+    global nodesList, n
     print("Creating Graph")
     print("Size will be: " + str(n) + " X " + str(n))
     counter = 1
-    nodes = []
 
     # Dhmiourgia antikeimenon
     # topothetisi se "pinaka"
@@ -40,7 +42,7 @@ def create_graph(n):
             ni.y = y
             cols.append(ni)
             counter += 1
-        nodes.append(cols)
+        nodesList.append(cols)
     # ni: node.MyNode = nodes[1][0]
     # print(ni.name)
 
@@ -49,7 +51,7 @@ def create_graph(n):
 
         for y in range(0, n):
 
-            temp: node.MyNode = nodes[x][y]
+            temp: node.MyNode = nodesList[x][y]
             # print("x: " + str(x) + " y: " + str(y))
             # print("Setting : " + temp.name)
 
@@ -59,83 +61,87 @@ def create_graph(n):
                 # Does not go left AND does not go up
                 if y == 0:
                     # print("x==0 Does not go left AND does not go up")
-                    temp.right = nodes[x][y + 1]
+                    temp.right = nodesList[x][y + 1]
                     temp.weight_right = rand_weight()
-                    temp.down = nodes[x + 1][y]
+                    temp.down = nodesList[x + 1][y]
                     temp.weight_down = rand_weight()
 
                 # Does not go right AND does not go up
                 elif y == n - 1:
                     # print("x==0 Does not go right AND does not go up")
-                    temp.down = nodes[x + 1][y]
+                    temp.down = nodesList[x + 1][y]
                     temp.weight_down = rand_weight()
-                    temp.left = nodes[x][y - 1]
+                    temp.left = nodesList[x][y - 1]
                     temp.weight_left = rand_weight()
 
                 # General case, Does not go up AND goes left AND right
                 else:
                     # print("x==0 General case, Does not go up AND goes left AND right")
-                    temp.right = nodes[x][y + 1]
+                    temp.right = nodesList[x][y + 1]
                     temp.weight_right = rand_weight()
-                    temp.down = nodes[x + 1][y]
+                    temp.down = nodesList[x + 1][y]
                     temp.weight_down = rand_weight()
-                    temp.left = nodes[x][y - 1]
+                    temp.left = nodesList[x][y - 1]
                     temp.weight_left = rand_weight()
 
             # Does not go down
             elif x == n - 1:
 
                 if y == n - 1:
-                    temp.left = nodes[x][y - 1]
+                    temp.left = nodesList[x][y - 1]
                     temp.weight_left = rand_weight()
-                    temp.up = nodes[x - 1][y]
+                    temp.up = nodesList[x - 1][y]
                     temp.weight_up = rand_weight()
                 elif y == 0:
-                    temp.up = nodes[x - 1][y]
+                    temp.up = nodesList[x - 1][y]
                     temp.weight_up = rand_weight()
-                    temp.right = nodes[x][y + 1]
+                    temp.right = nodesList[x][y + 1]
                     temp.weight_right = rand_weight()
                 else:
-                    temp.right = nodes[x][y + 1]
+                    temp.right = nodesList[x][y + 1]
                     temp.weight_right = rand_weight()
-                    temp.left = nodes[x][y - 1]
+                    temp.left = nodesList[x][y - 1]
                     temp.weight_left = rand_weight()
-                    temp.up = nodes[x - 1][y]
+                    temp.up = nodesList[x - 1][y]
                     temp.weight_up = rand_weight()
 
             # General case
             else:
                 if y == n - 1:
                     # print("General - Does not go right AND does not go up")
-                    temp.down = nodes[x + 1][y]
+                    temp.down = nodesList[x + 1][y]
                     temp.weight_down = rand_weight()
-                    temp.up = nodes[x - 1][y]
+                    temp.up = nodesList[x - 1][y]
                     temp.weight_up = rand_weight()
-                    temp.left = nodes[x][y - 1]
+                    temp.left = nodesList[x][y - 1]
                     temp.weight_left = rand_weight()
                 elif y == 0:
-                    temp.down = nodes[x + 1][y]
+                    temp.down = nodesList[x + 1][y]
                     temp.weight_down = rand_weight()
-                    temp.up = nodes[x - 1][y]
+                    temp.up = nodesList[x - 1][y]
                     temp.weight_up = rand_weight()
-                    temp.right = nodes[x][y + 1]
+                    temp.right = nodesList[x][y + 1]
                     temp.weight_right = rand_weight()
                 else:
                     # print("General - General case")
-                    temp.right = nodes[x][y + 1]
+                    temp.right = nodesList[x][y + 1]
                     temp.weight_right = rand_weight()
-                    temp.down = nodes[x + 1][y]
+                    temp.down = nodesList[x + 1][y]
                     temp.weight_down = rand_weight()
-                    temp.left = nodes[x][y - 1]
+                    temp.left = nodesList[x][y - 1]
                     temp.weight_left = rand_weight()
-                    temp.up = nodes[x - 1][y]
+                    temp.up = nodesList[x - 1][y]
                     temp.weight_up = rand_weight()
 
     print("Graph Created")
-    return nodes
+    remove_edges()
+    set_states()
+    create_heuristics()
+    print_graph()
 
 
-def remove_edges(percent, node_list):
+def remove_edges():
+    global p, nodesList
     print("Removing Edges")
     total = 2 * 2 * n * (n - 1)  # Afou einai amfidromo tote prepei na einai *2 o typos tou fyladiou
     print("Total Edges : " + str(total))
@@ -150,7 +156,7 @@ def remove_edges(percent, node_list):
         for x in range(0, n):
             for y in range(0, n):
 
-                ni: node.MyNode = node_list[x][y]
+                ni: node.MyNode = nodesList[x][y]
 
                 if ni.name == str(random_node):
                     result = int(ni.remove_edge())
@@ -166,17 +172,17 @@ def remove_edges(percent, node_list):
     print("Edges removed")
 
 
-def print_graph(node_list):
+def print_graph():
+    global nodesList
     for x in range(0, n):
         for y in range(0, n):
-            ni: node.MyNode = node_list[x][y]
+            ni: node.MyNode = nodesList[x][y]
             ni.print()
 
 
-def set_states(node_list):
-    global start_state
-    global end_state_1
-    global end_state_2
+def set_states():
+    global start_state, end_state_2, end_state_1, nodesList
+
     print("---------------")
     print("Setting States")
     start = random.randrange(1, (n * n) + 1)
@@ -192,7 +198,7 @@ def set_states(node_list):
 
     for x in range(0, n):
         for y in range(0, n):
-            ni: node.MyNode = node_list[x][y]
+            ni: node.MyNode = nodesList[x][y]
             if ni.name == str(start):
                 start_state = ni
 
@@ -218,14 +224,13 @@ def calc_distance(x1, x2, y1, y2):
     return x + y
 
 
-def create_heuristics(node_list):
-    print("Creating Approximate Distances Table")
-    global end_state_1
-    global end_state_2
+def create_heuristics():
+    print("Creating Heuristic Table")
+    global end_state_1, end_state_2, nodesList
 
     for x in range(0, n):
         for y in range(0, n):
-            ni: node.MyNode = node_list[x][y]
+            ni: node.MyNode = nodesList[x][y]
             dist_1 = calc_distance(ni.x, end_state_1.x, ni.y, end_state_1.y)
             dist_2 = calc_distance(ni.x, end_state_2.x, ni.y, end_state_2.y)
             if dist_1 < dist_2:
@@ -245,7 +250,6 @@ def expand(my_node):
     print("Expanding node: " + ni.name)
 
     if type(ni.up) == node.MyNode:
-        print("up")
         in_queue = False
         in_visited = False
         # Yparxei sto queue ?
@@ -261,13 +265,11 @@ def expand(my_node):
                 in_visited = True
 
         if in_visited:
-            print("Already visited")
             pass
 
         # Periptosh diplotypou me diaforetiko kostos
         if in_queue and not in_visited:
             # Clone object, new object has new cost :)
-            print("Clone")
             pi: node = priority_queue[pos]
             clone = copy.deepcopy(pi)
             clone.total_cost = ni.total_cost + ni.weight_up
@@ -277,14 +279,12 @@ def expand(my_node):
             expansion.append(clone)
 
         if not in_queue and not in_visited:
-            print("normie")
             ni.up.total_cost = ni.total_cost + ni.weight_up
             ni.up.route = ni.route + " + " + ni.up.name
             ni.up.parent = ni
             ni.up.a_star_cost = ni.up.total_cost + ni.up.manhattan
             expansion.append(ni.up)
     if type(ni.down) == node.MyNode:
-        print("down")
         in_queue = False
         in_visited = False
         # Yparxei sto queue ?
@@ -424,7 +424,7 @@ def path_cost():
 
 #  Minimum Manhattan Distance
 def min_distance():
-    global priority_queue, results, start_state,  done
+    global priority_queue, results, start_state, done
 
     priority_queue.sort(key=operator.attrgetter('manhattan'))
 
@@ -520,9 +520,9 @@ def print_result():
         print("\n")
 
 
-def reset(node_list):
+def reset():
     global results, priority_queue, visited
-    global done, node_counter, n
+    global done, node_counter, n, nodesList
 
     results.clear()
     priority_queue.clear()
@@ -532,21 +532,14 @@ def reset(node_list):
 
     for x in range(0, n):
         for y in range(0, n):
-            ni: node = node_list[x][y]
+            ni: node = nodesList[x][y]
             ni.reset()
 
 
 # n = int(input("Enter n: "))
 # p: int = int(input("Enter p: "))
 # max_weight = int(input("Enter max: "))
-
-nodesList = create_graph(n)
-remove_edges(p, nodesList)
-set_states(nodesList)
-create_heuristics(nodesList)
-print_graph(nodesList)
-
-# start_state = nodesList[0][0]  # 1
+create_graph()
 print("\nStart State: " + start_state.name)
 print("End State 1: " + end_state_1.name)
 print("End State 2: " + end_state_2.name + "\n")
