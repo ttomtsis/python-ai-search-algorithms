@@ -31,7 +31,7 @@ def path_cost():
 
 #  Minimum Manhattan Distance
 def min_distance():
-    global priority_queue, results, start_state, done
+    global priority_queue, results,  done
 
     priority_queue.sort(key=operator.attrgetter('manhattan'))
 
@@ -40,19 +40,18 @@ def min_distance():
         ni: node = results[0]
         while ni.parent is not None:
             ni = ni.parent
-        if ni.name == start_state.name:
+        if ni.name == nodesList.start_state.name:
             done = True
         else:
             results.remove(ni)
 
 
 def min_distance_and_path_cost():
-    global priority_queue, results, start_state, done
+    global priority_queue, results, done
 
     priority_queue.sort(key=operator.attrgetter('a_star_cost'))
 
     if len(priority_queue) == 0:
-        print("Queue size = 0, im done")
         done = True
 
 
@@ -129,7 +128,24 @@ def print_result():
 # n = int(input("Enter n: "))
 # p: int = int(input("Enter p: "))
 # max_weight = int(input("Enter max: "))
-create_graph()
+
+nodesList = graph.Graph(n, p, max_weight)
+
+'''
+cont = True
+while cont:
+    n = int(input("Enter n: "))
+    p: int = int(input("Enter p: "))
+    max_weight = int(input("Enter max: "))
+    if n <= 0:
+        print("n must be > 0")
+    if p < 0:
+        print("p must be >= 0")
+    if max_weight <= 0:
+        print("max must be > 0")
+    if n > 0 and p >= 0 and max_weight > 0:
+        cont = False
+'''
 
 print("\nStart State: " + nodesList.start_state.name)
 print("End State 1: " + nodesList.end_state_1.name)
@@ -137,6 +153,7 @@ print("End State 2: " + nodesList.end_state_2.name + "\n")
 
 bfs(min_distance_and_path_cost)
 print_result()
+
 '''
 cont = True
 while cont:
