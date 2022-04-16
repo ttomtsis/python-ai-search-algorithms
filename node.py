@@ -14,14 +14,14 @@ class MyNode:
         self.y = -1
 
         # MyNode Neighbors and weights
-        self.up = False
-        self.down = False
-        self.left = False
-        self.right = False
-        self.weight_up = 0
-        self.weight_down = 0
-        self.weight_left = 0
-        self.weight_right = 0
+        self.up = None
+        self.down = None
+        self.left = None
+        self.right = None
+        self.weight_up = None
+        self.weight_down = None
+        self.weight_left = None
+        self.weight_right = None
         self.end_state = False  # State
 
         # Total Path Cost
@@ -43,32 +43,27 @@ class MyNode:
     def print(self):
         print("\n----- " + self.name + " -----")
 
-        ni: MyNode = self.up
-        if type(ni) == bool:
-            print("Up: " + str(self.up) + " - Weight: " + str(self.weight_up))
+        if type(self.up) == MyNode:
+            print("Up: " + self.up.name + " - Weight: " + str(self.weight_up))
         else:
-            print("Up: " + ni.name + " - Weight: " + str(self.weight_up))
+            print("Up: None")
 
-        ni: MyNode = self.down
-        if type(ni) == bool:
-            print("Down: " + str(self.down) + " - Weight: " + str(self.weight_down))
+        if type(self.down) == MyNode:
+            print("Down: " + self.down.name + " - Weight: " + str(self.weight_down))
         else:
-            print("Down: " + ni.name + " - Weight: " + str(self.weight_down))
+            print("Down: None")
 
-        ni: MyNode = self.left
-        if type(ni) == bool:
-            print("Left: " + str(self.left) + " - Weight: " + str(self.weight_left))
+        if type(self.left) == MyNode:
+            print("Left: " + self.left.name + " - Weight: " + str(self.weight_left))
         else:
-            print("Left: " + ni.name + " - Weight: " + str(self.weight_left))
+            print("Left: None")
 
-        ni: MyNode = self.right
-        if type(ni) == bool:
-            print("Right: " + str(self.right) + " - Weight: " + str(self.weight_right))
+        if type(self.right) == MyNode:
+            print("Right: " + self.right.name + " - Weight: " + str(self.weight_right))
         else:
-            print("Right: " + ni.name + " - Weight: " + str(self.weight_right))
+            print("Right: None")
 
-        ni: MyNode = self.end_state
-        if ni:
+        if self.end_state:
             print("End State: True")
         else:
             print("End State: False")
