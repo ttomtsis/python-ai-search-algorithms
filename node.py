@@ -3,8 +3,16 @@ import random
 
 class MyNode:
 
+    # Constructor, n is node's name, eg: 1,2,3
     def __init__(self, n):
+        # Node name
         self.name = str(n)
+
+        # Coordinates in Graph
+        self.x = -1
+        self.y = -1
+
+        # Node Neighbors and weights
         self.up = False
         self.down = False
         self.left = False
@@ -13,12 +21,24 @@ class MyNode:
         self.weight_down = 0
         self.weight_left = 0
         self.weight_right = 0
-        self.end_state = False
+        self.end_state = False  # State
 
-        # UCS
-        self.total_cost = 0
-        self.route = self.name
+        # Total Path Cost
+        self.total_cost = 0  # Path Cost
 
+        # Manhattan distance from CLOSEST end state
+        self.manhattan = -1
+
+        # A* cost, Total path cost + Manhattan distance
+        self.a_star_cost = -1
+
+        # Route taken, to easily print ( Remove ? )
+        self.route = self.name  # Parents, to view easily
+
+        # Node's parent after expansion
+        self.parent = None
+
+    # Prints fields
     def print(self):
         print("\n----- " + self.name + " -----")
 
@@ -54,8 +74,13 @@ class MyNode:
 
         print("Total cost: " + str(self.total_cost))
 
+        print("Manhattan Distance: " + str(self.manhattan))
+
+        print("A* Cost: " + str(self.a_star_cost))
+
         print("Route: " + self.route)
 
+    # Removes random node edge
     def remove_edge(self):
 
         if (self.up == False and self.down == False
@@ -81,3 +106,11 @@ class MyNode:
                 self.right = False
                 self.weight_right = 0
                 return 1
+
+    # Resets total_cost and parent so that
+    # a new search algorithm can be applied to graph
+    def reset(self):
+        self.parent = None
+        self.total_cost = 0
+        self.a_star_cost = self.manhattan
+        self.route = self.name
