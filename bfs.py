@@ -1,9 +1,7 @@
 """
-This file contains the best first search algorithm
-along with the evaluation functions it uses, it serves
-as the basis of the project's execution. It creates
-a graph after taking user input and performs a series of
-search algorithms.
+This file serves as the basis of the project's execution.
+It creates a graph after taking user input and performs a series of
+search algorithms, all based on the best first search mindset
 """
 
 import node
