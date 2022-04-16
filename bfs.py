@@ -83,7 +83,7 @@ def min_distance_and_path_cost():
 
 #  Best First Search function
 #  Searches for a valid path to an end node, according
-#  to an evaluation function. eval_function chooses
+#  to an evaluation function. eval_function chooses the
 #  best path from a set of possible paths, hence the name "best-first search"
 def bfs(eval_function):
     global results, visited, priority_queue
