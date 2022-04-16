@@ -24,6 +24,7 @@ class Graph:
             for y in range(0, self.n):
                 ni: node.MyNode = self.nodesList[x][y]
                 ni.print()
+        print("\n")
 
     def rand_weight(self):
         return int(random.randrange(1, self.max_weight))
