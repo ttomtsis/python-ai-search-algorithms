@@ -10,16 +10,17 @@ import random
 
 class MyNode:
 
-    # Constructor, n is node's name, eg: 1,2,3
+    # Constructor. n is node's name, eg: 1,2,3
     def __init__(self, n):
-        # MyNode name
+
+        # Node name
         self.name = str(n)
 
         # Coordinates in Graph
         self.x = -1
         self.y = -1
 
-        # MyNode Neighbors and weights
+        # Node Neighbors and weights
         self.up = None
         self.down = None
         self.left = None
@@ -28,21 +29,36 @@ class MyNode:
         self.weight_down = None
         self.weight_left = None
         self.weight_right = None
-        self.end_state = False  # State
 
-        # Total Path Cost
+        # Is the node a start or an end state ?
+        self.start_state = False
+        self.end_state = False
+
+        '''
+        Total cost of path so far.
+        This is the TRUE cost of the path from one node to another,
+        this isn't an estimate and is calculated upon expansion of the node.
+        When expanding a node, and that node is an end state, that node is added
+        on the results list, the total_cost field of the nodes in the results list
+        represents the true total cost of the best path.
+        '''
         self.total_cost = 0  # Path Cost
 
-        # Manhattan distance from CLOSEST end state
+        # The Manhattan distance from the CLOSEST end state
+        # refer to calc_distance() for more information
         self.manhattan = -1
 
-        # A* cost, Total path cost + Manhattan distance
+        # A* cost, Initialized at this point with -1
+        # Is calculated later like this:
+        # Total path cost + Manhattan distance
         self.a_star_cost = -1
 
-        # Route taken, to easily print ( Remove ? )
-        self.route = self.name  # Parents, to view easily
+        # Route taken, so far.
+        # This field is only used to easily print node taken and
+        # to debug any mistakes. Can be removed in future versions
+        self.route = self.name
 
-        # MyNode's parent after expansion
+        # Node's parent after expansion
         self.parent = None
 
     # Prints node fields
