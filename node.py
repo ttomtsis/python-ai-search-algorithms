@@ -178,22 +178,21 @@ class MyNode:
     DOES NOT exist in the queue since it's cost has been modified by the previous expansion of node 3.
     Hence we check for the NAMES of the nodes, instead of using one of the build-in list methods.
     '''
-    def expand(self, my_node, visited, priority_queue):
+    def expand(self, visited, priority_queue):
 
         expansion = []
-        ni: MyNode = my_node
 
-        print("EXPANDING : " + ni.name)
+        print("EXPANDING : " + self.name)
 
-        if type(ni.up) == MyNode:
-            print("Node has neighbor UP: " + ni.up.name)
+        if type(self.up) == MyNode:
+            print("Node has neighbor UP: " + self.up.name)
             in_queue = False
             in_visited = False
 
             # Check if it exists in queue
             for x in range(0, len(priority_queue)):
                 qi: MyNode = priority_queue[x]
-                if ni.up.name == qi.name:
+                if self.up.name == qi.name:
                     in_queue = True
 
                     # Keep duplicate's position , so it can be copied later
@@ -202,7 +201,7 @@ class MyNode:
             # Check if it exists in visited
             for x in range(0, len(visited)):
                 qi: MyNode = visited[x]
-                if ni.up.name == qi.name:
+                if self.up.name == qi.name:
                     in_visited = True
 
             # If already visited pass
@@ -214,7 +213,7 @@ class MyNode:
             # duplicate node and alter copy's cost
             if in_queue and not in_visited:
                 # Clone object, new object has new cost :)
-                print("Node " + ni.up.name + " is in queue and not in visited. will clone")
+                print("Node " + self.up.name + " is in queue and not in visited. will clone")
 
                 # pi is the duplicate node
                 pi: MyNode = priority_queue[pos]
@@ -222,138 +221,138 @@ class MyNode:
                 # clone is the new copy of the duplicate node ( pi )
                 clone = copy.deepcopy(pi)
                 # new cost will be expanding node's path cost + the new expansion cost
-                clone.total_cost = ni.total_cost + ni.weight_up
-                clone.route = ni.route + " + " + clone.name
-                clone.parent = ni
+                clone.total_cost = self.total_cost + self.weight_up
+                clone.route = self.route + " + " + clone.name
+                clone.parent = self
                 clone.a_star_cost = clone.manhattan + clone.total_cost
                 expansion.append(clone)
 
             # Normal node case, simply expand
             if not in_queue and not in_visited:
-                print("Node " + ni.up.name + " is a normal case")
+                print("Node " + self.up.name + " is a normal case")
 
                 # Calculate cost in similar manner as above
-                ni.up.total_cost = ni.total_cost + ni.weight_up
-                ni.up.route = ni.route + " + " + ni.up.name
-                ni.up.parent = ni
-                ni.up.a_star_cost = ni.up.total_cost + ni.up.manhattan
-                expansion.append(ni.up)
+                self.up.total_cost = self.total_cost + self.weight_up
+                self.up.route = self.route + " + " + self.up.name
+                self.up.parent = self
+                self.up.a_star_cost = self.up.total_cost + self.up.manhattan
+                expansion.append(self.up)
 
         # The EXACT same logic is followed as above case,
         # below if statements can be considered duplicated code fragments
-        if type(ni.down) == MyNode:
-            print("Node has neighbour DOWN: " + ni.down.name)
+        if type(self.down) == MyNode:
+            print("Node has neighbour DOWN: " + self.down.name)
             in_queue = False
             in_visited = False
 
             for x in range(0, len(priority_queue)):
                 qi: MyNode = priority_queue[x]
-                if ni.down.name == qi.name:
+                if self.down.name == qi.name:
                     in_queue = True
                     pos = x
 
             for x in range(0, len(visited)):
                 qi: MyNode = visited[x]
-                if ni.down.name == qi.name:
+                if self.down.name == qi.name:
                     in_visited = True
 
             if in_visited:
-                print("Down neighbour " + ni.down.name + " visited already")
+                print("Down neighbour " + self.down.name + " visited already")
                 pass
 
             if in_queue and not in_visited:
                 # Clone object, new object has new cost :)
-                print("Node " + ni.down.name + " is in queue and not in visited")
+                print("Node " + self.down.name + " is in queue and not in visited")
                 pi: MyNode = priority_queue[pos]
                 clone = copy.deepcopy(pi)
-                clone.total_cost = ni.total_cost + ni.weight_down
-                clone.route = ni.route + " + " + clone.name
-                clone.parent = ni
+                clone.total_cost = self.total_cost + self.weight_down
+                clone.route = self.route + " + " + clone.name
+                clone.parent = self
                 clone.a_star_cost = clone.manhattan + clone.total_cost
                 expansion.append(clone)
 
             if not in_queue and not in_visited:
-                print("Node " + ni.down.name + " is a normal case")
-                ni.down.total_cost = ni.total_cost + ni.weight_down
-                ni.down.route = ni.route + " + " + ni.down.name
-                ni.down.parent = ni
-                ni.down.a_star_cost = ni.down.total_cost + ni.down.manhattan
-                expansion.append(ni.down)
-        if type(ni.left) == MyNode:
-            print("Node has neighbour LEFT: " + ni.left.name)
+                print("Node " + self.down.name + " is a normal case")
+                self.down.total_cost = self.total_cost + self.weight_down
+                self.down.route = self.route + " + " + self.down.name
+                self.down.parent = self
+                self.down.a_star_cost = self.down.total_cost + self.down.manhattan
+                expansion.append(self.down)
+        if type(self.left) == MyNode:
+            print("Node has neighbour LEFT: " + self.left.name)
             in_queue = False
             in_visited = False
 
             for x in range(0, len(priority_queue)):
                 qi: MyNode = priority_queue[x]
-                if ni.left.name == qi.name:
+                if self.left.name == qi.name:
                     in_queue = True
                     pos = x
 
             for x in range(0, len(visited)):
                 qi: MyNode = visited[x]
-                if ni.left.name == qi.name:
+                if self.left.name == qi.name:
                     in_visited = True
 
             if in_visited:
-                print("Left neighbour" + ni.left.name + "Already visited")
+                print("Left neighbour" + self.left.name + "Already visited")
                 pass
 
             if in_queue and not in_visited:
-                print("Node " + ni.left.name + " will be cloned")
+                print("Node " + self.left.name + " will be cloned")
                 pi: MyNode = priority_queue[pos]
                 clone = copy.deepcopy(pi)
-                clone.total_cost = ni.total_cost + ni.weight_left
-                clone.route = ni.route + " + " + clone.name
-                clone.parent = ni
+                clone.total_cost = self.total_cost + self.weight_left
+                clone.route = self.route + " + " + clone.name
+                clone.parent = self
                 clone.a_star_cost = clone.manhattan + clone.total_cost
                 expansion.append(clone)
 
             if not in_queue and not in_visited:
-                print("Node " + ni.left.name + " is a normal case")
-                ni.left.total_cost = ni.total_cost + ni.weight_left
-                ni.left.route = ni.route + " + " + ni.left.name
-                ni.left.parent = ni
-                ni.left.a_star_cost = ni.left.total_cost + ni.left.manhattan
-                expansion.append(ni.left)
-        if type(ni.right) == MyNode:
-            print("Node has Neighbour RIGHT: " + ni.right.name)
+                print("Node " + self.left.name + " is a normal case")
+                self.left.total_cost = self.total_cost + self.weight_left
+                self.left.route = self.route + " + " + self.left.name
+                self.left.parent = self
+                self.left.a_star_cost = self.left.total_cost + self.left.manhattan
+                expansion.append(self.left)
+        if type(self.right) == MyNode:
+            print("Node has Neighbour RIGHT: " + self.right.name)
             in_queue = False
             in_visited = False
 
             for x in range(0, len(priority_queue)):
                 qi: MyNode = priority_queue[x]
-                if ni.right.name == qi.name:
+                if self.right.name == qi.name:
                     in_queue = True
                     pos = x
 
             for x in range(0, len(visited)):
                 qi: MyNode = visited[x]
-                if ni.right.name == qi.name:
+                if self.right.name == qi.name:
                     in_visited = True
 
             if in_visited:
-                print("Right neighbour " + ni.right.name + "Already visited")
+                print("Right neighbour " + self.right.name + "Already visited")
                 pass
 
             if in_queue and not in_visited:
                 # Clone object, new object has new cost :)
-                print("Node " + ni.right.name + " will be cloned")
+                print("Node " + self.right.name + " will be cloned")
                 pi: MyNode = priority_queue[pos]
                 clone = copy.deepcopy(pi)
-                clone.total_cost = ni.total_cost + ni.weight_right
-                clone.route = ni.route + " + " + clone.name
-                clone.parent = ni
+                clone.total_cost = self.total_cost + self.weight_right
+                clone.route = self.route + " + " + clone.name
+                clone.parent = self
                 clone.a_star_cost = clone.manhattan + clone.total_cost
                 expansion.append(clone)
 
             if not in_queue and not in_visited:
-                print("Node " + ni.right.name + " is a normal case")
-                ni.right.total_cost = ni.total_cost + ni.weight_right
-                ni.right.route = ni.route + " + " + ni.right.name
-                ni.right.parent = ni
-                ni.right.a_star_cost = ni.right.total_cost + ni.right.manhattan
-                expansion.append(ni.right)
+                print("Node " + self.right.name + " is a normal case")
+                self.right.total_cost = self.total_cost + self.weight_right
+                self.right.route = self.route + " + " + self.right.name
+                self.right.parent = self
+                self.right.a_star_cost = self.right.total_cost + self.right.manhattan
+                expansion.append(self.right)
 
         # Print the expansion results
         for x in range(0, len(expansion)):
