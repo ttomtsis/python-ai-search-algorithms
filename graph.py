@@ -196,7 +196,6 @@ class Graph:
 
     def set_states(self):
 
-        print("---------------")
         print("Setting States")
         start = random.randrange(1, (self.n * self.n) + 1)
 
@@ -207,12 +206,12 @@ class Graph:
             if end_1 != start and end_2 != start:
                 if end_1 != end_2:
                     done = True
-                    print("Values changed")
 
         for x in range(0, self.n):
             for y in range(0, self.n):
                 ni: node.MyNode = self.nodesList[x][y]
                 if ni.name == str(start):
+                    ni.start_state = True
                     self.start_state = ni
 
                 elif ni.name == str(end_1):
@@ -224,7 +223,6 @@ class Graph:
                     self.end_state_2 = ni
 
         print("States Set")
-        print("---------------")
 
     # Supporting method, used by create_heuristics() below
     # calculates manhattan distance, based on the location
