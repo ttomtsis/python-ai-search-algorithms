@@ -1,9 +1,10 @@
 
 # AI - 1h ergasia
 
-Implementation Branch, here project progress
-is shown. End goal is fully working and cleaned-up
-project before merging with master branch.
+Stable Branch, this is current stable tested branch of progress.
+Currently this can be considered first complete version, 
+awaiting further quality control and new enhancements from next
+merges with BFS
 
 #| UPDATES: |
 BFS implemented
