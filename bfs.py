@@ -14,22 +14,22 @@ p: int  # Percent of edges to be removed
 
 nodesList: graph  # Graph will be stored here
 
-# Data Structures used
 priority_queue = []  # Expanded nodes stay here and await sorting
 visited = []  # Visited nodes will be stored here
 results = []  # Results will be stored here, we consider a valid result
 # the occasion when we reach a node that is an end state. Check bfs() for more details
 
-node_counter = 1  # Counts nodes of search tree, starts with 1 to include start-state
+expanded_nodes_counter = 0  # Counts number of nodes that were expanded
+created_nodes_counter = 1  # Counts total nodes of search tree, starts with 1 to include start-state
 done = False  # Will be used to mark the end of a search process. Is manipulated by evaluation functions.
 
-"""
+'''
 Below are the 3 evaluation functions used,
 the logic behind their implementation is as follows.
 Priority_queue is sorted according to a criteria, eg path-cost.
 Then depending on the algorithm a condition is checked to consider
 if the algorithm has reached the end of the searching process or not
-"""
+'''
 
 
 #  PATH-COST Evaluation function
@@ -85,7 +85,7 @@ def min_distance_and_path_cost():
 #  best path from a set of possible paths, hence the name "best-first search"
 def bfs(eval_function):
     global results, visited, priority_queue
-    global node_counter, done
+    global created_nodes_counter, done, expanded_nodes_counter
 
     # Start by adding start state to the queue
     priority_queue.append(nodesList.start_state)
@@ -121,8 +121,9 @@ def bfs(eval_function):
             # Add results to queue
             priority_queue.extend(expansion)
 
-            # Increment Counter
-            node_counter += len(expansion)
+            # Increment Counters
+            created_nodes_counter += len(expansion)
+            expanded_nodes_counter += 1
             print("Adding " + ni.name + " to visited list")
 
             # Add expanded node to visited list
@@ -134,7 +135,8 @@ def bfs(eval_function):
             print("Node " + ni.name + " is normal CASE")
             expansion: [] = ni.expand(ni, visited, priority_queue)
             priority_queue.extend(expansion)
-            node_counter += len(expansion)
+            created_nodes_counter += len(expansion)
+            expanded_nodes_counter += 1
             print("Adding " + ni.name + " to visited list")
             visited.append(ni)
 
@@ -159,7 +161,8 @@ def print_result():
         nu: node = results[0]
         print("\nBest result is: " + nu.name)
         nu.print()
-        print("Total nodes created: " + str(node_counter))
+        print("Total nodes created: " + str(created_nodes_counter))
+        print("Total nodes expanded: " + str(expanded_nodes_counter))
         print("\n")
 
 
