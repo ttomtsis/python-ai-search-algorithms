@@ -116,7 +116,10 @@ def bfs(eval_function):
             results.append(ni)
 
             # After expanding, the results are stored in the expansion lists
-            expansion: [] = ni.expand(ni, visited, priority_queue)
+            # visited and priority_queue are passed as parameters
+            # because of the duplicate node case which is explained
+            # in detail at the comments above expand() in node.py
+            expansion: [] = ni.expand(visited, priority_queue)
 
             # Add results to queue
             priority_queue.extend(expansion)
@@ -133,7 +136,7 @@ def bfs(eval_function):
         # Logic followed is similar to above case
         else:
             print("Node " + ni.name + " is normal CASE")
-            expansion: [] = ni.expand(ni, visited, priority_queue)
+            expansion: [] = ni.expand(visited, priority_queue)
             priority_queue.extend(expansion)
             created_nodes_counter += len(expansion)
             expanded_nodes_counter += 1
@@ -146,6 +149,11 @@ def bfs(eval_function):
 
         # Choose next node and decide if search is done
         eval_function()
+
+    # Prints the results ( if any ) of the search algorithm
+    # if any, refers to the case where the end_states may
+    # not be reached by the start node due to removed edges
+    print_result()
 
 
 #  Prints Best Result
@@ -164,6 +172,20 @@ def print_result():
         print("Total nodes created: " + str(created_nodes_counter))
         print("Total nodes expanded: " + str(expanded_nodes_counter))
         print("\n")
+
+
+#  Resets the graph and the counters
+#  so that a new search algorithm can be applied
+def reset():
+    global nodesList, expanded_nodes_counter, created_nodes_counter, done
+    global priority_queue, visited, results
+    nodesList.reset()
+    priority_queue.clear()
+    visited.clear()
+    results.clear()
+    done = False
+    expanded_nodes_counter = 0
+    created_nodes_counter = 1
 
 
 #  Ask user for parameters
@@ -198,22 +220,20 @@ while cont:
     print("2 - Greedy Best First Search")
     print("3 - A* Search")
     print("4 - Print Graph")
-    print("5 - Show States")
-    print("6 - Exit")
+    print("5 - Print States")
+    print("6 - Print Results")
+    print("7 - Exit")
     choice = input("\nEnter choice: ")
 
     if choice == "1":
-        nodesList.reset(nodesList)
+        reset()
         bfs(path_cost)
-        print_result()
     elif choice == "2":
-        nodesList.reset(nodesList)
+        reset()
         bfs(min_distance)
-        print_result()
     elif choice == "3":
-        nodesList.reset(nodesList)
+        reset()
         bfs(min_distance_and_path_cost)
-        print_result()
     elif choice == "4":
         nodesList.print_graph()
     elif choice == "5":
@@ -221,6 +241,8 @@ while cont:
         print("End State 1: " + nodesList.end_state_1.name)
         print("End State 2: " + nodesList.end_state_2.name + "\n")
     elif choice == "6":
+        print_result()
+    elif choice == "7":
         cont = False
     else:
         print("\n---Invalid Input---\n")
