@@ -1,5 +1,5 @@
 
-# AI - 1h ergasia
+# AI - Implementation Branch
 
 Implementation Branch, here project progress
 is shown. End goal is fully working and cleaned-up
