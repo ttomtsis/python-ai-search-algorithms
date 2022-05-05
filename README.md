@@ -1,5 +1,5 @@
 
-# AI - 1h ergasia
+# Basic Search Algorithms used in AI 
 
 Stable Branch, this is current stable tested branch of progress.
 Currently this can be considered first complete version, 
