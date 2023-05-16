@@ -1,18 +1,14 @@
-
 # Basic Search Algorithms used in AI 
+Simple python implementation of search algorithms used in AI by agents in order to find the best possible state.
 
-Stable Branch, this is current stable tested branch of progress.
-Currently this can be considered first complete version, 
-awaiting further quality control and new enhancements from next
-merges with BFS
+## Algorithms Implemented
+* Best-First Search ( BFS )
+* Uniform-Cost Search ( UCS )
+* A*
 
-#| UPDATES: |
-BFS implemented
-UCS, A* implemented by changing eval functions
-Need further testing for A*, comments and improvements
-Graph Class added, expand() moved to Node.
-FIXED: A* Issues
-renamed askhsh-1.py to bfs.py
-bfs.py is production ready
-node.py has comments
-awaiting quality control of project so far
+# Getting Started
+* Simply clone the repository via git `git clone https://github.com/ttomtsis/python-ai-search-algorithms`
+* Navigate to the project directory
+* Use python to run the main python script (bfs.py) `python3 bfs.py`
+
+
